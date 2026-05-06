@@ -22,6 +22,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'prize_credited',
     title: '🎉 You won 10,000 IQD!',
     body: 'Last-4 match in Weekly Draw #142. Credited to your wallet.',
+    titleKey: 'notifications.items.prizeWin.title',
+    bodyKey: 'notifications.items.prizeWin.body',
+    i18nVars: { amount: '10,000', drawNumber: 142 },
     createdAt: hoursAgo(2),
     isRead: false,
     deepLink: '/prizes',
@@ -31,6 +34,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'draw_results',
     title: 'Weekly Draw #142 results are in',
     body: 'See if your numbers came up. Three winning numbers revealed.',
+    titleKey: 'notifications.items.drawResults.title',
+    bodyKey: 'notifications.items.drawResults.body',
+    i18nVars: { drawNumber: 142 },
     createdAt: hoursAgo(3),
     isRead: false,
     deepLink: '/draws/draw-142',
@@ -40,6 +46,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'entry_earned',
     title: '+5 Fawz numbers',
     body: 'From your purchase at Carrefour for 12,500 IQD.',
+    titleKey: 'notifications.items.entryEarned.title',
+    bodyKey: 'notifications.items.entryEarned.body',
+    i18nVars: { count: 5, merchant: 'Carrefour', amount: '12,500' },
     createdAt: hoursAgo(8),
     isRead: false,
     deepLink: '/entries',
@@ -48,7 +57,10 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     id: 'n4',
     type: 'challenge_progress',
     title: 'Weekly Spark — 3/5 days',
-    body: 'Two more transaction days and you\'ll bag 100 entries.',
+    body: "Two more transaction days and you'll bag 100 entries.",
+    titleKey: 'notifications.items.challengeProgress.title',
+    bodyKey: 'notifications.items.challengeProgress.body',
+    i18nVars: { current: 3, target: 5, reward: 100 },
     createdAt: hoursAgo(20),
     isRead: true,
     deepLink: '/challenges/ch-spark',
@@ -58,6 +70,8 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'draw_reminder',
     title: 'Live draw in 2 hours',
     body: 'Get ready — the weekly draw broadcasts at 9:00 PM.',
+    titleKey: 'notifications.items.drawReminder.title',
+    bodyKey: 'notifications.items.drawReminder.body',
     createdAt: daysAgo(1),
     isRead: true,
     deepLink: '/draws/live',
@@ -67,6 +81,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'referral_reward',
     title: 'Referral reward · +50 entries · 5,000 IQD',
     body: 'Ahmad qualified through your Golden Ticket.',
+    titleKey: 'notifications.items.referralReward.title',
+    bodyKey: 'notifications.items.referralReward.body',
+    i18nVars: { entries: 50, amount: '5,000', name: 'Ahmad' },
     createdAt: daysAgo(2),
     isRead: true,
     deepLink: '/referral/history',
@@ -76,6 +93,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'challenge_completed',
     title: 'Eid Bonanza completed',
     body: 'You earned +500 entries and 10,000 IQD bonus.',
+    titleKey: 'notifications.items.challengeCompleted.title',
+    bodyKey: 'notifications.items.challengeCompleted.body',
+    i18nVars: { entries: 500, amount: '10,000' },
     createdAt: daysAgo(2),
     isRead: true,
     deepLink: '/challenges/ch-special',
@@ -85,6 +105,9 @@ const DUMMY_NOTIFS: FawzNotification[] = [
     type: 'system_alert',
     title: 'New terms accepted',
     body: 'You agreed to the updated rewards terms on Apr 12.',
+    titleKey: 'notifications.items.termsAccepted.title',
+    bodyKey: 'notifications.items.termsAccepted.body',
+    i18nVars: { date: 'Apr 12' },
     createdAt: daysAgo(8),
     isRead: true,
   },
@@ -100,12 +123,46 @@ const DUMMY_PREFS: NotificationPreferences = {
   systemCritical: true,
 };
 
+interface NotificationListResponse {
+  notifications_list: Array<{
+    notification_id: string;
+    notification_type?: string;
+    title?: string;
+    body?: string;
+    deep_link?: string | null;
+    is_read?: boolean;
+    date_created?: string;
+  }>;
+  total_notifications: number;
+  page: number;
+  page_size: number;
+}
+
+function adaptApiNotification(raw: NotificationListResponse['notifications_list'][number]): FawzNotification {
+  return {
+    id: raw.notification_id,
+    type: (raw.notification_type as FawzNotification['type']) ?? 'system_alert',
+    title: raw.title ?? '',
+    body: raw.body ?? '',
+    createdAt: raw.date_created ?? new Date().toISOString(),
+    isRead: raw.is_read ?? false,
+    deepLink: raw.deep_link ?? undefined,
+  };
+}
+
 export function useNotifications() {
   return useQuery({
     queryKey: notifKeys.list(),
     queryFn: () =>
       withFallback(
-        () => apiClient.get<FawzNotification[]>('/fawz_consumer_engagement/notification/list').then((r) => r.data),
+        async () => {
+          const { data } = await apiClient.get<NotificationListResponse>(
+            '/fawz_consumer_engagement/notifications',
+            { params: { page: 1, page_size: 50 } },
+          );
+          if (!data.notifications_list?.length) return DUMMY_NOTIFS;
+          return data.notifications_list.map(adaptApiNotification);
+        },
         DUMMY_NOTIFS,
         'notifications',
       ),
@@ -117,7 +174,13 @@ export function useUnreadCount() {
     queryKey: notifKeys.unreadCount(),
     queryFn: () =>
       withFallback(
-        () => apiClient.get<{ count: number }>('/fawz_consumer_engagement/notification/unread-count').then((r) => r.data.count),
+        async () => {
+          const { data } = await apiClient.get<NotificationListResponse>(
+            '/fawz_consumer_engagement/notifications',
+            { params: { page: 1, page_size: 1, is_read: false } },
+          );
+          return data.total_notifications ?? 0;
+        },
         DUMMY_NOTIFS.filter((n) => !n.isRead).length,
         'unreadCount',
       ),
@@ -148,9 +211,9 @@ export function useMarkRead() {
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        await apiClient.patch(`/fawz_consumer_engagement/notification/${id}/read`);
+        await apiClient.patch(`/fawz_consumer_engagement/notifications/${id}`, { is_read: true });
       } catch {
-        /* dummy mode */
+        /* fallback: optimistic-only */
       }
       return id;
     },

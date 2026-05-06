@@ -45,12 +45,12 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       <aside
         className={cn(
           'fixed lg:sticky top-0 z-50 lg:z-10 h-dvh lg:h-screen w-72 shrink-0',
-          'bg-white border-e border-ink-100 transition-transform duration-300',
+          'bg-white border-e border-teal-100 transition-transform duration-300',
           'lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full lg:!translate-x-0',
         )}
       >
-        <div className="px-6 h-16 flex items-center border-b border-ink-100">
+        <div className="px-6 h-16 flex items-center border-b border-teal-100">
           <Logo size="md" />
         </div>
         <nav className="px-3 py-5 space-y-0.5 overflow-y-auto h-[calc(100%-4rem)]">
@@ -63,8 +63,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-gradient-to-r from-brand-50 to-brand-100/60 text-brand-700 shadow-sm'
-                    : 'text-ink-600 hover:bg-ink-50 hover:text-ink-900',
+                    ? 'bg-gradient-to-r from-teal-50 to-mint-50 text-teal-800 shadow-sm ring-1 ring-teal-100'
+                    : 'text-ink-600 hover:bg-mint-50 hover:text-teal-800',
                 )
               }
             >
@@ -74,15 +74,16 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                     className={cn(
                       'flex items-center justify-center size-8 rounded-lg transition-colors',
                       isActive
-                        ? 'bg-gradient-to-br from-brand-500 to-brand-700 text-white'
-                        : 'bg-ink-100 text-ink-600',
+                        ? 'text-white shadow-[0_4px_12px_-4px_rgba(0,198,167,0.55)]'
+                        : 'bg-ink-100 text-ink-600 group-hover:bg-teal-100 group-hover:text-teal-700',
                     )}
+                    style={isActive ? { background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 100%)' } : undefined}
                   >
                     <Icon className="size-4" />
                   </span>
                   <span>{t(`nav.${key}`)}</span>
                   {isActive && (
-                    <span className="ms-auto size-1.5 rounded-full bg-brand-500" />
+                    <span className="ms-auto size-1.5 rounded-full bg-teal-500" />
                   )}
                 </>
               )}

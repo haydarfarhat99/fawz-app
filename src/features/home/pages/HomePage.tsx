@@ -1,16 +1,25 @@
 import { useTranslation } from 'react-i18next';
 import { Tv, Sparkles, ArrowRight, Eye } from 'lucide-react';
-import { Trophy3D, Ticket3D, Calendar3D, Gift3D, Clover3D } from '@shared/components/Icon3D';
+import {
+  Trophy3D,
+  Ticket3D,
+  Calendar3D,
+  Gift3D,
+  Clover3D,
+  Bell3D,
+  Globe3D,
+  Beaker3D,
+} from '@shared/components/Icon3D';
 import { useNavigate } from 'react-router-dom';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
-import { Card } from '@shared/components/Card';
-import { Badge } from '@shared/components/Badge';
-import { Button } from '@shared/components/Button';
+import { Avatar } from '@shared/components/Avatar';
 import { useAuth } from '@shared/hooks/useAuth';
 import { usePageTitle } from '@shared/hooks/usePageTitle';
 import { useCountdown } from '@shared/hooks/useCountdown';
 import { useUIStore } from '@stores/ui.store';
+import { setLanguage } from '@core/i18n';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
+import { useUnreadCount } from '@features/notifications/services/notification.service';
 
 const NEXT_DRAW = (() => {
   const d = new Date();
@@ -24,31 +33,131 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const lang = useUIStore((s) => s.language);
+  const setStoreLanguage = useUIStore((s) => s.setLanguage);
+  const dataSource = useUIStore((s) => s.dataSource);
+  const toggleDataSource = useUIStore((s) => s.toggleDataSource);
+  const { data: unreadCount = 0 } = useUnreadCount();
   usePageTitle(t('nav.home'));
   const countdown = useCountdown(NEXT_DRAW);
 
+  const toggleLanguage = () => {
+    const next = lang === 'en' ? 'ar' : 'en';
+    setStoreLanguage(next);
+    setLanguage(next);
+  };
+
   return (
     <ScreenWrapper>
-      <div className="mb-6">
-        <p className="text-sm text-ink-500">{t('home.welcomeBack')}</p>
-        <h1 className="text-2xl font-bold text-ink-900">
-          {user?.fullName ?? t('home.playerFallback')}
-        </h1>
+      <div
+        className="relative overflow-hidden rounded-3xl mb-6 px-4 md:px-8 py-5 md:py-7 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
+        style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
+      >
+        <div className="absolute -top-16 -end-16 size-56 rounded-full bg-fawzgold-300/25 blur-3xl" />
+        <div className="absolute -bottom-16 -start-16 size-56 rounded-full bg-teal-300/30 blur-3xl" />
+
+        <div className="relative lg:hidden flex items-center justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleDataSource}
+              aria-label={t('common.dataSource.label')}
+              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+            >
+              <Beaker3D size={44} />
+              <span
+                className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[8px] font-black ring-2 ring-teal-700 tabular-nums"
+                style={
+                  dataSource === 'real'
+                    ? { background: '#10b981', color: 'white' }
+                    : { background: '#FFC94D', color: '#1a1a1a' }
+                }
+              >
+                {dataSource === 'real' ? 'L' : 'M'}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              aria-label={t('common.language')}
+              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+            >
+              <Globe3D size={44} />
+              <span className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-fawzgold-400 px-1 text-[9px] font-black text-ink-900 ring-2 ring-teal-700 tabular-nums">
+                {lang === 'en' ? 'AR' : 'EN'}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => navigate('/notifications')}
+              aria-label={t('nav.notifications')}
+              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+            >
+              <Bell3D size={44} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -end-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[10px] font-black text-white px-1 ring-2 ring-teal-700 tabular-nums">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/profile')}
+              aria-label={t('nav.profile')}
+              className="group relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+            >
+              <span className="absolute inset-0 -z-10 rounded-full blur-md bg-fawzgold-400/45 animate-pulse-glow" />
+              <Avatar name={user?.fullName} src={user?.avatarUrl} size="lg" />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative flex items-center gap-4 md:gap-5">
+          <div className="relative shrink-0">
+            <div className="absolute inset-0 -z-10 blur-3xl bg-fawzgold-400/35 rounded-full scale-125" />
+            <div className="absolute inset-0 -z-10 blur-xl bg-teal-400/30 rounded-2xl scale-110" />
+            <img
+              src="/brand/fawz-mark.png"
+              alt="FAWZ"
+              className="size-20 md:size-24 drop-shadow-[0_14px_28px_rgba(10,15,14,0.55)]"
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-fawzgold-200 font-bold mb-1">
+              {t('home.welcomeBack')}
+            </p>
+            <p className="text-xs md:text-sm text-white/75 mb-1.5">{t('home.brandTagline')}</p>
+            <h1 className="text-2xl md:text-3xl font-black leading-tight truncate">
+              {user?.fullName ?? t('home.playerFallback')}
+            </h1>
+          </div>
+        </div>
       </div>
 
-      <Card variant="gradient" padding="lg" className="relative overflow-hidden mb-6">
-        <div className="absolute -top-8 -end-8 size-40 rounded-full bg-gold-300/40 blur-3xl" />
-        <div className="absolute -bottom-8 -start-8 size-40 rounded-full bg-brand-300/40 blur-3xl" />
+      <div
+        className="relative overflow-hidden rounded-3xl mb-6 p-6 md:p-8 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
+        style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
+      >
+        <div className="absolute -top-16 -end-12 size-64 rounded-full bg-fawzgold-300/30 blur-3xl" />
+        <div className="absolute -bottom-16 -start-12 size-56 rounded-full bg-teal-300/25 blur-3xl" />
+
         <div className="relative grid md:grid-cols-2 gap-6 items-center">
           <div>
-            <Badge tone="gold" pulse className="mb-3">
-              <Sparkles className="size-3" />
+            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] mb-3 bg-fawzgold-400/20 text-fawzgold-200 ring-1 ring-fawzgold-300/40">
+              <Sparkles className="size-3 animate-pulse" />
               {t('home.nextDraw')}
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-black text-ink-900 mb-2">
-              <span className="text-gradient-gold">{formatCompactIQD(50_000_000, lang)}</span>
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black mb-2 tracking-tight">
+              <span
+                className="bg-clip-text text-transparent drop-shadow-[0_4px_24px_rgba(255,201,77,0.5)]"
+                style={{ backgroundImage: 'linear-gradient(180deg, #FFE7A3 0%, #FFC94D 60%, #F2B324 100%)' }}
+              >
+                {formatCompactIQD(50_000_000, lang)}
+              </span>
             </h2>
-            <p className="text-sm text-ink-600 mb-4">{t('home.jackpotSubtitle')}</p>
+            <p className="text-sm text-white/75 mb-5">{t('home.jackpotSubtitle')}</p>
             <div className="grid grid-cols-4 gap-2 max-w-sm">
               {[
                 { label: t('home.units.days'), value: countdown.days },
@@ -56,48 +165,51 @@ export default function HomePage() {
                 { label: t('home.units.minutes'), value: countdown.minutes },
                 { label: t('home.units.seconds'), value: countdown.seconds },
               ].map((s) => (
-                <div key={s.label} className="text-center bg-white/70 backdrop-blur rounded-xl py-2">
-                  <div className="text-xl font-bold text-ink-900 tabular-nums">
+                <div key={s.label} className="text-center bg-white/10 ring-1 ring-white/15 backdrop-blur rounded-xl py-2.5">
+                  <div className="text-xl font-black text-white tabular-nums">
                     {String(s.value).padStart(2, '0')}
                   </div>
-                  <div className="text-[10px] uppercase tracking-wider text-ink-500">{s.label}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-white/55">{s.label}</div>
                 </div>
               ))}
             </div>
-            <Button
-              size="lg"
-              variant="gold"
-              className="mt-5"
-              iconEnd={<ArrowRight className="size-4 rtl:rotate-180" />}
+            <button
+              type="button"
               onClick={() => navigate('/draws/live')}
+              className="group relative mt-6 inline-flex items-center gap-2 rounded-2xl px-6 h-12 font-black text-ink-900 shadow-[0_12px_32px_-8px_rgba(255,201,77,0.55)] transition-all duration-200 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg, #FFE7A3 0%, #FFC94D 50%, #F2B324 100%)' }}
             >
+              <Sparkles className="size-4" />
               {t('draws.watchLive')}
-            </Button>
+              <ArrowRight className="size-4 rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+            </button>
           </div>
           <div className="relative h-48 md:h-56 flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center justify-center animate-float">
-              <Trophy3D size={160} />
+            <div className="absolute size-44 md:size-52 rounded-full bg-fawzgold-300/40 blur-3xl" />
+            <div className="absolute size-32 md:size-40 rounded-full bg-fawzgold-200/40 blur-xl" />
+            <div className="relative animate-float">
+              <Trophy3D size={170} />
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
-      <Card variant="elevated" padding="lg" className="relative overflow-hidden mb-6 border-2 border-dashed border-brand-300/60 !bg-gradient-to-br !from-brand-50/60 !via-white !to-gold-50/60">
-        <div className="absolute -top-8 -end-8 size-32 rounded-full bg-brand-300/30 blur-3xl" />
-        <div className="absolute -bottom-8 -start-8 size-32 rounded-full bg-gold-300/30 blur-3xl" />
+      <div className="relative overflow-hidden rounded-3xl mb-6 p-5 md:p-6 bg-mint-50 border border-teal-100 shadow-[0_8px_30px_-12px_rgba(0,198,167,0.25)]">
+        <div className="absolute -top-8 -end-8 size-32 rounded-full bg-teal-300/30 blur-3xl" />
+        <div className="absolute -bottom-8 -start-8 size-32 rounded-full bg-fawzgold-200/40 blur-3xl" />
 
         <div className="relative">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 rounded-full bg-brand-600 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-teal-600 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em]">
               <Eye className="size-3" />
               {t('home.demoBadge')}
             </span>
-            <span className="text-xs text-ink-500 font-medium">{t('home.demoSubtitle')}</span>
+            <span className="text-xs text-teal-800 font-medium">{t('home.demoSubtitle')}</span>
           </div>
-          <h3 className="text-lg md:text-xl font-black text-ink-900 mb-1">
+          <h3 className="text-lg md:text-xl font-black text-teal-900 mb-1">
             {t('home.demoTitle')}
           </h3>
-          <p className="text-sm text-ink-600 mb-4 max-w-md">{t('home.demoDescription')}</p>
+          <p className="text-sm text-teal-800/80 mb-4 max-w-md">{t('home.demoDescription')}</p>
 
           <DemoSection
             type="weekly"
@@ -113,60 +225,75 @@ export default function HomePage() {
             t={t}
           />
         </div>
-      </Card>
-
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        <Card interactive onClick={() => navigate('/entries?filter=weekly')} padding="md">
-          <div className="flex items-center gap-3">
-            <Ticket3D size={48} />
-            <div className="min-w-0">
-              <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.weeklyTickets')}</div>
-              <div className="text-2xl font-bold text-ink-900 tabular-nums">
-                {formatNumber(47, lang)}
-              </div>
-            </div>
-          </div>
-        </Card>
-        <Card interactive onClick={() => navigate('/entries?filter=monthly')} padding="md">
-          <div className="flex items-center gap-3">
-            <Calendar3D size={48} />
-            <div className="min-w-0">
-              <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.monthlyTickets')}</div>
-              <div className="text-2xl font-bold text-ink-900 tabular-nums">{formatNumber(18, lang)}</div>
-            </div>
-          </div>
-        </Card>
-        <Card interactive onClick={() => navigate('/prizes')} padding="md">
-          <div className="flex items-center gap-3">
-            <Gift3D size={48} />
-            <div className="min-w-0">
-              <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.totalWinnings')}</div>
-              <div className="text-2xl font-bold text-ink-900 tabular-nums">{formatCompactIQD(0, lang)}</div>
-            </div>
-          </div>
-        </Card>
       </div>
 
-      <Card padding="lg">
+      <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <button
+          type="button"
+          onClick={() => navigate('/entries?filter=weekly')}
+          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+        >
+          <Ticket3D size={48} />
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.weeklyTickets')}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(47, lang)}</div>
+          </div>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/entries?filter=monthly')}
+          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+        >
+          <Calendar3D size={48} />
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.monthlyTickets')}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(18, lang)}</div>
+          </div>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/prizes')}
+          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+        >
+          <Gift3D size={48} />
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.totalWinnings')}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(0, lang)}</div>
+          </div>
+        </button>
+      </div>
+
+      <div className="rounded-3xl bg-white border border-teal-100 p-5 md:p-6 shadow-[0_8px_24px_-16px_rgba(0,49,46,0.25)]">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-ink-900">{t('home.latestDraw')}</h3>
-          <Button variant="ghost" size="sm" onClick={() => navigate('/draws/results')}>
+          <h3 className="text-lg font-black text-teal-900">{t('home.latestDraw')}</h3>
+          <button
+            type="button"
+            onClick={() => navigate('/draws/results')}
+            className="text-sm font-bold text-teal-700 hover:text-teal-900 transition-colors"
+          >
             {t('common.viewAll')}
-          </Button>
+          </button>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white">
+          <div
+            className="flex size-14 items-center justify-center rounded-2xl text-white shadow-[0_8px_20px_-8px_rgba(0,198,167,0.6)]"
+            style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 100%)' }}
+          >
             <Tv className="size-6" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-ink-900">{t('home.latestDrawTitle', { number: 142 })}</p>
-            <p className="text-sm text-ink-500">{t('home.latestDrawSubtitle')}</p>
+            <p className="font-bold text-teal-900">{t('home.latestDrawTitle', { number: 142 })}</p>
+            <p className="text-sm text-teal-800/70">{t('home.latestDrawSubtitle')}</p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => navigate('/draws/results')}>
+          <button
+            type="button"
+            onClick={() => navigate('/draws/results')}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-teal-300 bg-teal-50 px-3 h-9 text-sm font-bold text-teal-800 hover:bg-teal-100 transition-colors"
+          >
             {t('home.seeWinners')}
-          </Button>
+          </button>
         </div>
-      </Card>
+      </div>
     </ScreenWrapper>
   );
 }
@@ -189,32 +316,34 @@ function DemoSection({ type, jackpotPrize, navigate, t }: DemoSectionProps) {
   ];
 
   return (
-    <div className="rounded-2xl bg-white/60 backdrop-blur p-3 border border-ink-100">
+    <div className="rounded-2xl bg-white/85 backdrop-blur p-3 border border-teal-100">
       <div className="flex items-center justify-between mb-2.5 px-1">
-        <span className="text-[11px] uppercase tracking-[0.2em] font-black text-brand-700">
+        <span className="text-[11px] uppercase tracking-[0.2em] font-black text-teal-700">
           {sectionLabel}
         </span>
-        <span className="text-[10px] text-ink-500">{numbersHint}</span>
+        <span className="text-[10px] text-teal-800/70">{numbersHint}</span>
       </div>
       <div className="grid sm:grid-cols-2 gap-2 mb-2">
         <button
           type="button"
           onClick={() => navigate(`${linkBase}&scenario=jackpot`)}
-          className="group flex items-center gap-3 rounded-xl bg-gradient-to-br from-danger-500 via-gold-500 to-brand-700 p-3 text-start shadow-[0_6px_18px_-6px_rgba(251,191,36,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_-6px_rgba(251,191,36,0.7)]"
+          className="group flex items-center gap-3 rounded-xl p-3 text-start shadow-[0_8px_22px_-8px_rgba(255,201,77,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(255,201,77,0.7)]"
+          style={{ background: 'linear-gradient(135deg, #FFE7A3 0%, #FFC94D 50%, #F2B324 100%)' }}
         >
           <Trophy3D size={40} />
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-black text-white">
+            <div className="text-xs font-black text-ink-900">
               {t('home.demoJackpotShort')} · {jackpotPrize} {t('currency.iqd')}
             </div>
-            <div className="text-[10px] text-white/80">{t('home.demoJackpotSubtitle')}</div>
+            <div className="text-[10px] text-ink-900/70">{t('home.demoJackpotSubtitle')}</div>
           </div>
-          <ArrowRight className="size-3.5 text-white rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+          <ArrowRight className="size-3.5 text-ink-900 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
         </button>
         <button
           type="button"
           onClick={() => navigate(`${linkBase}&scenario=lose`)}
-          className="group flex items-center gap-3 rounded-xl bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 p-3 text-start shadow-[0_6px_18px_-6px_rgba(124,58,237,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_-6px_rgba(124,58,237,0.7)]"
+          className="group flex items-center gap-3 rounded-xl p-3 text-start shadow-[0_8px_22px_-8px_rgba(0,198,167,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(0,198,167,0.7)]"
+          style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
         >
           <Clover3D size={40} />
           <div className="flex-1 min-w-0">
@@ -230,14 +359,14 @@ function DemoSection({ type, jackpotPrize, navigate, t }: DemoSectionProps) {
             key={s.key}
             type="button"
             onClick={() => navigate(`${linkBase}&scenario=${s.key}`)}
-            className="group flex flex-col items-center justify-center rounded-lg bg-white border border-gold-300/60 p-2 text-center hover:border-gold-400 hover:-translate-y-0.5 transition-all"
+            className="group flex flex-col items-center justify-center rounded-lg bg-white border border-fawzgold-300/70 p-2 text-center hover:border-fawzgold-400 hover:-translate-y-0.5 transition-all"
           >
-            <div className="text-[9px] uppercase tracking-wider font-bold text-gold-700">
+            <div className="text-[9px] uppercase tracking-wider font-bold text-fawzgold-600">
               {s.label}
             </div>
-            <div className="text-xs font-black text-ink-900 tabular-nums">
+            <div className="text-xs font-black text-teal-900 tabular-nums">
               {s.prize}
-              <span className="text-[9px] font-bold text-ink-500 ms-1">{t('currency.iqd')}</span>
+              <span className="text-[9px] font-bold text-teal-800/60 ms-1">{t('currency.iqd')}</span>
             </div>
           </button>
         ))}

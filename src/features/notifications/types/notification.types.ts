@@ -13,6 +13,9 @@ export interface FawzNotification {
   type: NotificationType;
   title: string;
   body: string;
+  titleKey?: string;
+  bodyKey?: string;
+  i18nVars?: Record<string, string | number>;
   createdAt: string;
   isRead: boolean;
   deepLink?: string;

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Calendar, CalendarDays, TrendingUp, Trophy, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { Ticket3D, Calendar3D, Trophy3D, TrendingUp3D } from '@shared/components/Icon3D';
 import { useUIStore } from '@stores/ui.store';
 import { Card } from '@shared/components/Card';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
@@ -24,11 +25,9 @@ export function SummaryCard({ summary }: SummaryCardProps) {
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(124,58,237,0.18)]">
+          <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(0, 198, 167,0.18)]">
             <div className="flex items-center gap-2 mb-2">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white icon-3d">
-                <Calendar className="size-4" />
-              </div>
+              <Ticket3D size={32} />
               <span className="text-[10px] uppercase tracking-wider font-bold text-brand-700">
                 {t('entries.weeklyTickets')}
               </span>
@@ -43,9 +42,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
 
           <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(251,191,36,0.25)]">
             <div className="flex items-center gap-2 mb-2">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-ink-900 icon-3d">
-                <CalendarDays className="size-4" />
-              </div>
+              <Calendar3D size={32} />
               <span className="text-[10px] uppercase tracking-wider font-bold text-gold-700">
                 {t('entries.monthlyTickets')}
               </span>
@@ -62,9 +59,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
         <div className="grid grid-cols-2 gap-2 md:gap-3">
           <div className="rounded-xl bg-white/70 backdrop-blur p-3">
             <div className="flex items-center gap-1.5 mb-1.5">
-              <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-gold-200 to-gold-400 text-gold-700 icon-3d">
-                <Trophy className="size-3.5" />
-              </div>
+              <Trophy3D size={28} />
               <span className="text-[10px] uppercase tracking-wider font-bold text-ink-500">
                 {t('entries.wonShort')}
               </span>
@@ -75,9 +70,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
           </div>
           <div className="rounded-xl bg-white/70 backdrop-blur p-3">
             <div className="flex items-center gap-1.5 mb-1.5">
-              <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-success-50 to-success-500/30 text-success-600 icon-3d">
-                <TrendingUp className="size-3.5" />
-              </div>
+              <TrendingUp3D size={28} />
               <span className="text-[10px] uppercase tracking-wider font-bold text-ink-500">
                 {t('entries.winningsShort')}
               </span>

@@ -5,11 +5,14 @@ import { Sidebar } from './Sidebar';
 import { BottomTabBar } from './BottomTabBar';
 import { OfflineBanner } from '@shared/components/OfflineBanner';
 import { ShariaDisclosureModal } from '@features/onboarding/components/ShariaDisclosureModal';
+import { useUIStore } from '@stores/ui.store';
 
 const SHARIA_KEY = 'fawz.consent.sharia';
 
 export function AppLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mobileSidebarOpen = useUIStore((s) => s.mobileSidebarOpen);
+  const closeMobileSidebar = useUIStore((s) => s.closeMobileSidebar);
+  const openMobileSidebar = useUIStore((s) => s.openMobileSidebar);
   const [shariaOpen, setShariaOpen] = useState(false);
 
   useEffect(() => {
@@ -22,9 +25,9 @@ export function AppLayout() {
 
   return (
     <div className="min-h-dvh flex bg-transparent">
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar open={mobileSidebarOpen} onClose={closeMobileSidebar} />
       <div className="flex-1 min-w-0 flex flex-col">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
+        <Header onMenuClick={openMobileSidebar} />
         <OfflineBanner />
         <main className="flex-1 pb-20 lg:pb-0">
           <Outlet />

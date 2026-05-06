@@ -33,9 +33,9 @@ export function DigitSlot({ value, spinning = false, isMatched = false }: DigitS
         filled
           ? isMatched
             ? 'bg-gradient-to-br from-gold-300 via-gold-400 to-gold-600 text-ink-900 shadow-[0_4px_14px_-4px_rgba(251,191,36,0.6),inset_0_1px_0_rgba(255,255,255,0.5)]'
-            : 'bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-[0_4px_12px_-4px_rgba(124,58,237,0.45),inset_0_1px_0_rgba(255,255,255,0.2)]'
+            : 'bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-[0_4px_12px_-4px_rgba(0, 198, 167,0.45),inset_0_1px_0_rgba(255,255,255,0.2)]'
           : spinning
-            ? 'bg-gradient-to-br from-brand-700/60 to-brand-950/80 text-white border border-brand-400/40 shadow-[0_2px_8px_-2px_rgba(124,58,237,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]'
+            ? 'bg-gradient-to-br from-brand-700/60 to-brand-950/80 text-white border border-brand-400/40 shadow-[0_2px_8px_-2px_rgba(0, 198, 167,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]'
             : 'bg-white/5 border border-white/10 text-white/30',
       )}
       aria-label={filled ? `Digit ${value}` : spinning ? 'Spinning' : 'Empty digit slot'}

@@ -25,6 +25,9 @@ export interface Challenge {
   id: string;
   name: string;
   description: string;
+  nameKey?: string;
+  descriptionKey?: string;
+  i18nVars?: Record<string, string | number>;
   category: ChallengeCategory;
   metric: ChallengeMetric;
   targetValue: number;

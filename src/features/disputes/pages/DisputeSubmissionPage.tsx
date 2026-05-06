@@ -123,7 +123,7 @@ export default function DisputeSubmissionPage() {
                   className={cn(
                     'rounded-xl border px-3 py-2.5 text-start text-sm font-semibold transition-all',
                     type === tk
-                      ? 'border-brand-500 bg-brand-50 text-brand-800 shadow-[0_2px_8px_-2px_rgba(124,58,237,0.25)]'
+                      ? 'border-brand-500 bg-brand-50 text-brand-800 shadow-[0_2px_8px_-2px_rgba(0, 198, 167,0.25)]'
                       : 'border-ink-200 bg-white text-ink-700 hover:border-brand-300',
                   )}
                 >

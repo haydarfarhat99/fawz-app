@@ -36,8 +36,8 @@ export const shadows = {
   lg: '0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04)',
   xl: '0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04)',
   '2xl': '0 25px 50px -12px rgba(15, 23, 42, 0.18)',
-  brand: '0 10px 30px -8px rgba(124, 58, 237, 0.4)',
+  brand: '0 10px 30px -8px rgba(0, 198, 167, 0.4)',
   gold: '0 10px 30px -8px rgba(251, 191, 36, 0.5)',
-  glow: '0 0 24px rgba(168, 85, 247, 0.35)',
+  glow: '0 0 24px rgba(0, 198, 167, 0.35)',
   inner: 'inset 0 2px 4px 0 rgba(15, 23, 42, 0.06)',
 } as const;

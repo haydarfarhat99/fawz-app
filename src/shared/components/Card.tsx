@@ -15,7 +15,7 @@ const variantStyles: Record<CardVariant, string> = {
   outlined: 'bg-white border-2 border-ink-200',
   glass: 'glass',
   gradient:
-    'gradient-mesh border border-white/40 shadow-[0_10px_40px_-10px_rgba(124,58,237,0.25)]',
+    'gradient-mesh border border-white/40 shadow-[0_10px_40px_-10px_rgba(0, 198, 167,0.25)]',
   gold:
     'bg-gradient-to-br from-gold-50 via-white to-gold-100 border border-gold-200 shadow-[0_12px_32px_-12px_rgba(251,191,36,0.4)]',
 };

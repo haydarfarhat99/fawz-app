@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
+import { Trophy3D } from '@shared/components/Icon3D';
 import { cn } from '@core/utils/cn';
 import { playSplashWhoosh } from '@core/utils/sound';
 
@@ -49,27 +50,8 @@ export function SplashScreen({ onComplete, duration = 1900 }: SplashScreenProps)
         style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
       >
         <div className="relative mb-6">
-          <div className="absolute inset-0 -z-10 blur-3xl bg-gold-400/60 rounded-full scale-150 animate-pulse-glow" />
-          <div className="relative flex size-32 items-center justify-center rounded-[2.25rem] bg-gradient-to-br from-brand-400 via-brand-600 to-brand-800 shadow-[0_30px_60px_-15px_rgba(124,58,237,0.7),inset_0_2px_0_rgba(255,255,255,0.4)]">
-            <div className="absolute inset-1 rounded-[1.95rem] bg-gradient-to-br from-white/20 to-transparent" />
-            <svg width="80" height="80" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="relative drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
-              <defs>
-                <linearGradient id="splash-mark-gold" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FCD34D" />
-                  <stop offset="50%" stopColor="#F59E0B" />
-                  <stop offset="100%" stopColor="#B45309" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M16 4 L26 16 L16 28 L6 16 Z"
-                fill="url(#splash-mark-gold)"
-                stroke="white"
-                strokeWidth="0.6"
-                strokeOpacity="0.5"
-              />
-              <path d="M16 4 L26 16 L16 13 Z" fill="white" fillOpacity="0.3" />
-            </svg>
-          </div>
+          <div className="absolute inset-0 -z-10 blur-3xl bg-gold-400/50 rounded-full scale-150 animate-pulse-glow" />
+          <Trophy3D size={140} />
         </div>
 
         <h1

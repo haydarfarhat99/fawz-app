@@ -115,9 +115,13 @@ export default function ChallengeDetailPage() {
             <ChallengeIcon challenge={challenge} size="lg" />
             <div className="flex-1 min-w-0 pt-1">
               <h1 className="text-2xl font-black text-ink-900 leading-tight mb-1">
-                {challenge.name}
+                {challenge.nameKey ? t(challenge.nameKey, { defaultValue: challenge.name }) : challenge.name}
               </h1>
-              <p className="text-sm text-ink-600">{challenge.description}</p>
+              <p className="text-sm text-ink-600">
+                {challenge.descriptionKey
+                  ? t(challenge.descriptionKey, { defaultValue: challenge.description })
+                  : challenge.description}
+              </p>
             </div>
           </div>
 

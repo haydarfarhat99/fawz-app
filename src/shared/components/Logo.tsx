@@ -4,65 +4,58 @@ interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   withWordmark?: boolean;
+  variant?: 'wordmark' | 'lockup' | 'mark' | 'text';
 }
 
-const sizeMap = {
-  sm: { mark: 24, text: 'text-lg', gap: 'gap-2' },
-  md: { mark: 28, text: 'text-xl', gap: 'gap-2.5' },
-  lg: { mark: 40, text: 'text-3xl', gap: 'gap-3' },
-  xl: { mark: 56, text: 'text-5xl', gap: 'gap-4' },
+const heightMap = {
+  sm: 24,
+  md: 32,
+  lg: 48,
+  xl: 72,
 };
 
-export function Logo({ size = 'md', className, withWordmark = true }: LogoProps) {
-  const s = sizeMap[size];
-  return (
-    <div className={cn('inline-flex items-center', s.gap, className)}>
-      <LogoMark size={s.mark} />
-      {withWordmark && (
-        <span className={cn('font-black tracking-tight text-gradient-brand', s.text)}>FAWZ</span>
-      )}
-    </div>
-  );
-}
+const textSizeMap = {
+  sm: 'text-base',
+  md: 'text-xl',
+  lg: 'text-3xl',
+  xl: 'text-5xl',
+};
 
-/**
- * Abstract diamond-cut mark — no letterforms, scales cleanly.
- * Two stacked rhombi suggest a winning ticket; gradient + inner highlight gives depth.
- */
-function LogoMark({ size }: { size: number }) {
+const SOURCES = {
+  wordmark: '/brand/fawz-wordmark.png',
+  lockup: '/brand/fawz-lockup.png',
+  mark: '/brand/fawz-mark.png',
+} as const;
+
+export function Logo({ size = 'md', className, withWordmark = true, variant = 'text' }: LogoProps) {
+  if (!withWordmark) return null;
+
+  if (variant === 'text') {
+    return (
+      <span
+        className={cn(
+          'inline-block font-black tracking-tight select-none bg-clip-text text-transparent',
+          textSizeMap[size],
+          className,
+        )}
+        style={{
+          backgroundImage:
+            'linear-gradient(135deg, #00C6A7 0%, #00766A 35%, #FFC94D 75%, #F2B324 100%)',
+        }}
+      >
+        FAWZ
+      </span>
+    );
+  }
+
+  const h = heightMap[size];
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="logo-mark-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#A78BFA" />
-          <stop offset="50%" stopColor="#7C3AED" />
-          <stop offset="100%" stopColor="#4C1D95" />
-        </linearGradient>
-        <linearGradient id="logo-mark-shine" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="white" stopOpacity="0.4" />
-          <stop offset="60%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="logo-mark-gold" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FCD34D" />
-          <stop offset="100%" stopColor="#D97706" />
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#logo-mark-bg)" />
-      <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#logo-mark-shine)" />
-      <path
-        d="M16 7 L23 16 L16 25 L9 16 Z"
-        fill="url(#logo-mark-gold)"
-        stroke="white"
-        strokeWidth="0.5"
-        strokeOpacity="0.4"
-      />
-      <path d="M16 7 L23 16 L16 12 Z" fill="white" fillOpacity="0.25" />
-    </svg>
+    <img
+      src={SOURCES[variant]}
+      alt="FAWZ"
+      height={h}
+      style={{ height: h, width: 'auto' }}
+      className={cn('inline-block select-none', className)}
+    />
   );
 }

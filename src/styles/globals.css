@@ -1,28 +1,28 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Brand: deep indigo (premium fintech, trust) */
-  --color-brand-50: #f5f3ff;
-  --color-brand-100: #ede9fe;
-  --color-brand-200: #ddd6fe;
-  --color-brand-300: #c4b5fd;
-  --color-brand-400: #a78bfa;
-  --color-brand-500: #8b5cf6;
-  --color-brand-600: #7c3aed;
-  --color-brand-700: #6d28d9;
-  --color-brand-800: #5b21b6;
-  --color-brand-900: #4c1d95;
-  --color-brand-950: #2e1065;
+  /* FAWZ brand: Primary Teal — trust, digital growth, modern finance */
+  --color-brand-50:  #E6FFF6;
+  --color-brand-100: #C8FBE8;
+  --color-brand-200: #8FF1D6;
+  --color-brand-300: #5EE5C2;
+  --color-brand-400: #2DD4B0;
+  --color-brand-500: #00C6A7;
+  --color-brand-600: #009E86;
+  --color-brand-700: #00766A;
+  --color-brand-800: #005049;
+  --color-brand-900: #00312E;
+  --color-brand-950: #0A0F0E;
 
-  /* Gold: prize/celebration (excitement) */
-  --color-gold-50: #fffbeb;
-  --color-gold-100: #fef3c7;
-  --color-gold-200: #fde68a;
-  --color-gold-300: #fcd34d;
-  --color-gold-400: #fbbf24;
-  --color-gold-500: #f59e0b;
-  --color-gold-600: #d97706;
-  --color-gold-700: #b45309;
+  /* FAWZ gold: winning moments, jackpots, rewards (use sparingly) */
+  --color-gold-50:  #FFFDF2;
+  --color-gold-100: #FFF5D6;
+  --color-gold-200: #FFE7A3;
+  --color-gold-300: #FFD978;
+  --color-gold-400: #FFC94D;
+  --color-gold-500: #F2B324;
+  --color-gold-600: #C8901A;
+  --color-gold-700: #92400E;
 
   /* Ink: surfaces and text */
   --color-ink-50: #f8fafc;
@@ -44,6 +44,31 @@
   --color-warning-500: #f59e0b;
   --color-info-500: #3b82f6;
 
+  /* FAWZ brand palette — Primary Teal */
+  --color-teal-50:  #E6FFF6;
+  --color-teal-100: #C8FBE8;
+  --color-teal-200: #8FF1D6;
+  --color-teal-300: #5EE5C2;
+  --color-teal-400: #2DD4B0;
+  --color-teal-500: #00C6A7;
+  --color-teal-600: #009E86;
+  --color-teal-700: #00766A;
+  --color-teal-800: #005049;
+  --color-teal-900: #00312E;
+  --color-teal-950: #0A0F0E;
+
+  /* FAWZ brand palette — Premium Gold (rewards/winning moments only) */
+  --color-fawzgold-100: #FFF5D6;
+  --color-fawzgold-200: #FFE7A3;
+  --color-fawzgold-300: #FFD978;
+  --color-fawzgold-400: #FFC94D;
+  --color-fawzgold-500: #F2B324;
+  --color-fawzgold-600: #C8901A;
+
+  /* Light mint — fresh card sections */
+  --color-mint-50:  #E6FFF6;
+  --color-mint-100: #D1FAEB;
+
   --font-sans: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
   --font-arabic: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -55,9 +80,9 @@
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
 
-  --shadow-brand: 0 10px 30px -8px rgba(124, 58, 237, 0.4);
-  --shadow-gold: 0 10px 30px -8px rgba(251, 191, 36, 0.5);
-  --shadow-glow: 0 0 24px rgba(168, 85, 247, 0.35);
+  --shadow-brand: 0 10px 30px -8px rgba(0, 198, 167, 0.4);
+  --shadow-gold: 0 10px 30px -8px rgba(255, 201, 77, 0.55);
+  --shadow-glow: 0 0 24px rgba(0, 198, 167, 0.35);
   --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
   --shadow-elevated: 0 10px 30px -10px rgba(15, 23, 42, 0.18), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
 
@@ -123,10 +148,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.5), 0 10px 30px -8px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 198, 167, 0.5), 0 10px 30px -8px rgba(0, 198, 167, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(168, 85, 247, 0), 0 14px 36px -8px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 0 12px rgba(0, 198, 167, 0), 0 14px 36px -8px rgba(0, 198, 167, 0.5);
   }
 }
 
@@ -294,10 +319,10 @@ body {
 
 @utility gradient-mesh {
   background-image:
-    radial-gradient(at 20% 10%, rgba(167, 139, 250, 0.35) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgba(251, 191, 36, 0.25) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(139, 92, 246, 0.2) 0px, transparent 50%),
-    radial-gradient(at 80% 100%, rgba(124, 58, 237, 0.25) 0px, transparent 50%);
+    radial-gradient(at 20% 10%, rgba(0, 198, 167, 0.35) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(255, 201, 77, 0.25) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(0, 158, 134, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, rgba(255, 231, 163, 0.25) 0px, transparent 50%);
 }
 
 @utility text-gradient-brand {
@@ -317,7 +342,7 @@ body {
 @utility icon-3d {
   filter:
     drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6))
-    drop-shadow(0 4px 8px rgba(124, 58, 237, 0.25))
+    drop-shadow(0 4px 8px rgba(0, 198, 167, 0.25))
     drop-shadow(0 8px 16px rgba(15, 23, 42, 0.1));
   transform: translateZ(0);
 }

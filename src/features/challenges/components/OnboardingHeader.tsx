@@ -52,7 +52,9 @@ export function OnboardingHeader({ progress }: OnboardingHeaderProps) {
               className="group flex items-center gap-2.5 rounded-xl bg-white/70 backdrop-blur p-2.5 text-start hover:bg-white transition-all"
             >
               <ChallengeIcon challenge={c} size="sm" />
-              <span className="flex-1 text-xs font-semibold text-ink-900 truncate">{c.name}</span>
+              <span className="flex-1 text-xs font-semibold text-ink-900 truncate">
+                {c.nameKey ? t(c.nameKey, { defaultValue: c.name }) : c.name}
+              </span>
               {c.completed ? (
                 <CheckCircle2 className="size-4 text-success-600" />
               ) : (

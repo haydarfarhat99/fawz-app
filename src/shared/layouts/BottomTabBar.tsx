@@ -32,7 +32,7 @@ export function BottomTabBar() {
                   className={cn(
                     'flex items-center justify-center size-9 rounded-2xl transition-all',
                     isActive
-                      ? 'bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-[0_8px_18px_-6px_rgba(124,58,237,0.55)] -translate-y-0.5'
+                      ? 'bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-[0_8px_18px_-6px_rgba(0, 198, 167,0.55)] -translate-y-0.5'
                       : 'text-ink-500',
                   )}
                 >

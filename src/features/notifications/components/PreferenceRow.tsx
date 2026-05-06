@@ -33,7 +33,7 @@ export function PreferenceRow({
         'group flex items-start gap-3 rounded-2xl border bg-white p-4 transition-all duration-200',
         locked || disabled
           ? 'opacity-90 cursor-not-allowed border-ink-100'
-          : 'border-ink-100 hover:border-brand-200 hover:shadow-[0_4px_12px_-4px_rgba(124,58,237,0.15)] cursor-pointer',
+          : 'border-ink-100 hover:border-brand-200 hover:shadow-[0_4px_12px_-4px_rgba(0, 198, 167,0.15)] cursor-pointer',
       )}
     >
       <div

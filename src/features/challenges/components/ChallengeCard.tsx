@@ -63,9 +63,13 @@ export function ChallengeCard({ challenge, compact = false }: ChallengeCardProps
         <ChallengeIcon challenge={challenge} size={compact ? 'sm' : 'md'} />
         <div className="flex-1 min-w-0 pe-6">
           <h3 className="font-bold text-ink-900 leading-tight mb-0.5">
-            {challenge.name}
+            {challenge.nameKey ? t(challenge.nameKey, { defaultValue: challenge.name }) : challenge.name}
           </h3>
-          <p className="text-xs text-ink-500 line-clamp-2">{challenge.description}</p>
+          <p className="text-xs text-ink-500 line-clamp-2">
+            {challenge.descriptionKey
+              ? t(challenge.descriptionKey, { defaultValue: challenge.description })
+              : challenge.description}
+          </p>
         </div>
         <ChevronRight className="size-4 text-ink-300 rtl:rotate-180 mt-1.5 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
       </div>

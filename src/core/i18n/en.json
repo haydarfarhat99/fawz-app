@@ -29,7 +29,16 @@
     "arabic": "العربية",
     "logout": "Sign out",
     "settings": "Settings",
-    "appName": "FAWZ"
+    "appName": "FAWZ",
+    "dataSource": {
+      "label": "Data source",
+      "real": "Live API",
+      "mock": "Mock data",
+      "switchToMock": "Switch to mock data",
+      "switchToReal": "Switch to live API",
+      "tooltipReal": "Using real backend endpoints. Pages with missing endpoints fall back to mock.",
+      "tooltipMock": "Using mock data only. No network calls are made."
+    }
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -170,6 +179,7 @@
   "home": {
     "welcomeBack": "Welcome back,",
     "playerFallback": "Player",
+    "brandTagline": "Every payment. A chance to win.",
     "nextDraw": "Next draw",
     "jackpotSubtitle": "Jackpot for this week's live draw",
     "weeklySpark": "Weekly Spark",
@@ -268,7 +278,41 @@
     "allCaughtUp": "You're all caught up.",
     "markAllRead": "Mark all read",
     "emptyTitle": "Nothing new",
-    "emptySubtitle": "Wins, draws, and rewards will land here."
+    "emptySubtitle": "Wins, draws, and rewards will land here.",
+    "items": {
+      "prizeWin": {
+        "title": "🎉 You won {{amount}} IQD!",
+        "body": "Last-4 match in Weekly Draw #{{drawNumber}}. Credited to your wallet."
+      },
+      "drawResults": {
+        "title": "Weekly Draw #{{drawNumber}} results are in",
+        "body": "See if your numbers came up. Three winning numbers revealed."
+      },
+      "entryEarned": {
+        "title": "+{{count}} Fawz numbers",
+        "body": "From your purchase at {{merchant}} for {{amount}} IQD."
+      },
+      "challengeProgress": {
+        "title": "Weekly Spark — {{current}}/{{target}} days",
+        "body": "Two more transaction days and you'll bag {{reward}} entries."
+      },
+      "drawReminder": {
+        "title": "Live draw in 2 hours",
+        "body": "Get ready — the weekly draw broadcasts at 9:00 PM."
+      },
+      "referralReward": {
+        "title": "Referral reward · +{{entries}} entries · {{amount}} IQD",
+        "body": "{{name}} qualified through your Golden Ticket."
+      },
+      "challengeCompleted": {
+        "title": "Eid Bonanza completed",
+        "body": "You earned +{{entries}} entries and {{amount}} IQD bonus."
+      },
+      "termsAccepted": {
+        "title": "New terms accepted",
+        "body": "You agreed to the updated rewards terms on {{date}}."
+      }
+    }
   },
   "notifPrefs": {
     "title": "Notification Preferences",
@@ -441,6 +485,54 @@
       "fuel": "Fuel",
       "recharge": "Recharge",
       "merchant": "Merchant"
+    },
+    "items": {
+      "spark": {
+        "name": "Weekly Spark",
+        "description": "Make at least one SuperQi transaction on 5 different days this week."
+      },
+      "fuel": {
+        "name": "Fuel Up",
+        "description": "Spend 25,000 IQD on fuel transactions to score this month's bonus."
+      },
+      "recharge": {
+        "name": "Top Up Champion",
+        "description": "Recharge your phone 4 times this week."
+      },
+      "merchant": {
+        "name": "Explore Merchants",
+        "description": "Pay at 3 different merchants this month."
+      },
+      "special": {
+        "name": "Eid Bonanza",
+        "description": "Earn 3x entries on every transaction during Eid week."
+      },
+      "ob_first": {
+        "name": "First Steps",
+        "description": "Make your first SuperQi transaction."
+      },
+      "ob_streak": {
+        "name": "Build a Streak",
+        "description": "Complete transactions on 3 different days."
+      },
+      "ob_invite": {
+        "name": "Invite a Friend",
+        "description": "Share your Golden Ticket with a friend."
+      },
+      "ob_live": {
+        "name": "Watch a Live Draw",
+        "description": "Tune in to the next live draw broadcast."
+      }
+    },
+    "units": {
+      "days": "days",
+      "iqd": "IQD",
+      "recharges": "recharges",
+      "merchants": "merchants",
+      "transactions": "transactions",
+      "transaction": "transaction",
+      "invite": "invite",
+      "view": "view"
     }
   },
   "entries": {

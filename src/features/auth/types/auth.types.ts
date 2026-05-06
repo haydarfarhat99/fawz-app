@@ -26,19 +26,27 @@ export interface ResetPasswordRequest {
   code_type: 'EmailVerification' | 'ResetCode';
 }
 
+export interface AuthApiUser {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  tenant_id?: string;
+  role_id?: string;
+  user_status?: string;
+  profile_image_url?: string | null;
+  total_entries?: number;
+  draws_participated?: number;
+  total_winnings?: number;
+  prizes_won?: number;
+  mfa_enabled?: boolean;
+}
+
 export interface AuthSuccessResponse {
   message: string;
   encrypted_token: string;
   access_token: string;
-  user?: {
-    user_id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    tenant_id?: string;
-    role_id?: string;
-    user_status?: string;
-  };
+  user?: AuthApiUser;
 }
 
 export interface SignupResponse {

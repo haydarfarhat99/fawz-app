@@ -8,6 +8,7 @@ interface AuthCardProps {
   badge?: ReactNode;
   icon?: ReactNode;
   iconTone?: string;
+  hero?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -19,6 +20,7 @@ export function AuthCard({
   badge,
   icon,
   iconTone = 'from-brand-500 to-brand-700',
+  hero,
   children,
   footer,
   className,
@@ -26,11 +28,18 @@ export function AuthCard({
   return (
     <Card variant="elevated" padding="lg" className={cn('animate-slide-up', className)}>
       <div className="text-center mb-6">
-        {icon ? (
+        {hero ? (
+          <div className="mb-4 flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 -z-10 blur-2xl bg-gold-300/40 rounded-full scale-110" />
+              {hero}
+            </div>
+          </div>
+        ) : icon ? (
           <div className="mb-4">
             <div
               className={cn(
-                'mx-auto inline-flex size-16 items-center justify-center rounded-3xl text-white icon-3d shadow-[0_18px_36px_-12px_rgba(124,58,237,0.55)]',
+                'mx-auto inline-flex size-16 items-center justify-center rounded-3xl text-white icon-3d shadow-[0_18px_36px_-12px_rgba(0, 198, 167,0.55)]',
                 'bg-gradient-to-br',
                 iconTone,
               )}
