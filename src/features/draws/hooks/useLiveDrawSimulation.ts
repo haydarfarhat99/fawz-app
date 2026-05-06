@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   playDigitReveal,
   playDigitTick,
@@ -6,6 +7,7 @@ import {
   playLoseTone,
   playWinFanfare,
 } from '@core/utils/sound';
+import { drawKeys } from '../services/draw.service';
 import type { ConnectionState, DrawDigitEvent, WinnerTier } from '../types/draw.types';
 
 export type LivePhase = 'waiting' | 'broadcasting' | 'finalizing' | 'finalized';
@@ -110,6 +112,7 @@ export function useLiveDrawSimulation(opts: SimulationOptions = {}): LiveDrawSta
   const numbersCount = getNumbersCount(drawType);
   const initialScenario = resolveScenario(scenario);
   const scenarioRef = useRef<ResolvedScenario>(initialScenario);
+  const qc = useQueryClient();
 
   const [state, setState] = useState<LiveDrawState>({
     phase: 'waiting',
@@ -219,6 +222,10 @@ export function useLiveDrawSimulation(opts: SimulationOptions = {}): LiveDrawSta
       } catch {
         /* ignore */
       }
+      // Invalidate cached "my result" so the detail page re-derives from
+      // the just-updated session state instead of returning a stale win.
+      qc.removeQueries({ queryKey: drawKeys.myResult('draw-143') });
+      qc.removeQueries({ queryKey: drawKeys.detail('draw-143') });
     }, cursor + finalizationMs);
 
     return () => {
@@ -228,7 +235,7 @@ export function useLiveDrawSimulation(opts: SimulationOptions = {}): LiveDrawSta
       });
       timersRef.current = [];
     };
-  }, [betweenNumbersMs, digitIntervalMs, drawType, finalizationMs, numbersCount, scenario, startDelayMs, totalDigitsPerNumber]);
+  }, [betweenNumbersMs, digitIntervalMs, drawType, finalizationMs, numbersCount, qc, scenario, startDelayMs, totalDigitsPerNumber]);
 
   return state;
 }

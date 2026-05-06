@@ -6,20 +6,25 @@ import { cn } from '@core/utils/cn';
 interface PageHeaderProps {
   title: ReactNode;
   description?: ReactNode;
-  back?: boolean;
+  /** `true` = browser history back; pass a string for an explicit destination URL. */
+  back?: boolean | string;
   actions?: ReactNode;
   className?: string;
 }
 
 export function PageHeader({ title, description, back, actions, className }: PageHeaderProps) {
   const navigate = useNavigate();
+  const goBack = () => {
+    if (typeof back === 'string') navigate(back);
+    else navigate(-1);
+  };
   return (
     <div className={cn('hidden lg:flex items-start justify-between gap-4 mb-6', className)}>
       <div className="flex items-center gap-3 min-w-0">
         {back && (
           <button
             type="button"
-            onClick={() => navigate(-1)}
+            onClick={goBack}
             className="inline-flex size-10 items-center justify-center rounded-xl border border-ink-200 bg-white text-ink-700 hover:border-brand-300 hover:text-brand-700 transition-colors"
             aria-label="Back"
           >

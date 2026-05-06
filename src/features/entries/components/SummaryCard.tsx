@@ -27,7 +27,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
         <div className="grid grid-cols-2 gap-3 mb-5">
           <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(0, 198, 167,0.18)]">
             <div className="flex items-center gap-2 mb-2">
-              <Ticket3D size={32} />
+              <Ticket3D size={32} tone="teal" />
               <span className="text-[10px] uppercase tracking-wider font-bold text-brand-700">
                 {t('entries.weeklyTickets')}
               </span>
@@ -42,7 +42,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
 
           <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(251,191,36,0.25)]">
             <div className="flex items-center gap-2 mb-2">
-              <Calendar3D size={32} />
+              <Calendar3D size={32} tone="teal" />
               <span className="text-[10px] uppercase tracking-wider font-bold text-gold-700">
                 {t('entries.monthlyTickets')}
               </span>

@@ -100,15 +100,27 @@ export function Coin3D({ size = 64, className }: Icon3DProps) {
 }
 
 /* =============================== TICKET =============================== */
-export function Ticket3D({ size = 64, className }: Icon3DProps) {
+interface TonedIconProps extends Icon3DProps {
+  tone?: 'default' | 'teal' | 'gold';
+}
+
+const TICKET_TONES = {
+  default: ['#A78BFA', '#7C3AED', '#4C1D95'],
+  teal:    ['#5EE5C2', '#00C6A7', '#00766A'],
+  gold:    ['#FFE7A3', '#FFC94D', '#C8901A'],
+} as const;
+
+export function Ticket3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
   const id = useId().replace(/[:]/g, '_');
+  const [c0, c1, c2] = TICKET_TONES[tone];
+  const star = tone === 'teal' ? '#FFC94D' : '#FBBF24';
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-body`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#A78BFA" />
-          <stop offset="50%" stopColor="#7C3AED" />
-          <stop offset="100%" stopColor="#4C1D95" />
+          <stop offset="0%" stopColor={c0} />
+          <stop offset="50%" stopColor={c1} />
+          <stop offset="100%" stopColor={c2} />
         </linearGradient>
         <linearGradient id={`${id}-shine`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="white" stopOpacity="0.4" />
@@ -125,7 +137,7 @@ export function Ticket3D({ size = 64, className }: Icon3DProps) {
           fill={`url(#${id}-shine)`}
         />
         <line x1="22" y1="22" x2="22" y2="42" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" strokeOpacity="0.5" />
-        <path d="M40 28 L42 34 L48 34 L43 38 L45 44 L40 40 L35 44 L37 38 L32 34 L38 34 Z" fill="#FBBF24" />
+        <path d="M40 28 L42 34 L48 34 L43 38 L45 44 L40 40 L35 44 L37 38 L32 34 L38 34 Z" fill={star} />
       </g>
     </svg>
   );
@@ -161,23 +173,30 @@ export function Clover3D({ size = 64, className }: Icon3DProps) {
 }
 
 /* =============================== GIFT =============================== */
-export function Gift3D({ size = 64, className }: Icon3DProps) {
+const GIFT_TONES = {
+  default: { box: ['#FB7185', '#E11D48', '#881337'], lid: ['#FECACA', '#E11D48'],            ribbon: ['#FCD34D', '#B45309'], knot: '#92400E' },
+  teal:    { box: ['#5EE5C2', '#00C6A7', '#00766A'], lid: ['#C8FBE8', '#00C6A7'],            ribbon: ['#FFE7A3', '#FFC94D'], knot: '#92400E' },
+  gold:    { box: ['#FFE7A3', '#FFC94D', '#C8901A'], lid: ['#FFF5D6', '#FFC94D'],            ribbon: ['#5EE5C2', '#00766A'], knot: '#00312E' },
+} as const;
+
+export function Gift3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
   const id = useId().replace(/[:]/g, '_');
+  const palette = GIFT_TONES[tone];
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-box`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FB7185" />
-          <stop offset="50%" stopColor="#E11D48" />
-          <stop offset="100%" stopColor="#881337" />
+          <stop offset="0%" stopColor={palette.box[0]} />
+          <stop offset="50%" stopColor={palette.box[1]} />
+          <stop offset="100%" stopColor={palette.box[2]} />
         </linearGradient>
         <linearGradient id={`${id}-lid`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FECACA" />
-          <stop offset="100%" stopColor="#E11D48" />
+          <stop offset="0%" stopColor={palette.lid[0]} />
+          <stop offset="100%" stopColor={palette.lid[1]} />
         </linearGradient>
         <linearGradient id={`${id}-ribbon`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FCD34D" />
-          <stop offset="100%" stopColor="#B45309" />
+          <stop offset="0%" stopColor={palette.ribbon[0]} />
+          <stop offset="100%" stopColor={palette.ribbon[1]} />
         </linearGradient>
       </defs>
       <rect x="10" y="26" width="44" height="30" rx="3" fill={`url(#${id}-box)`} />
@@ -187,14 +206,21 @@ export function Gift3D({ size = 64, className }: Icon3DProps) {
       <rect x="29" y="20" width="6" height="36" fill={`url(#${id}-ribbon)`} />
       <rect x="29" y="20" width="2" height="36" fill="white" fillOpacity="0.4" />
       <path d="M32 14 Q22 8 22 18 Q22 24 32 22 Q42 24 42 18 Q42 8 32 14" fill={`url(#${id}-ribbon)`} />
-      <circle cx="32" cy="20" r="2.5" fill="#92400E" />
+      <circle cx="32" cy="20" r="2.5" fill={palette.knot} />
     </svg>
   );
 }
 
 /* =============================== CALENDAR =============================== */
-export function Calendar3D({ size = 64, className }: Icon3DProps) {
+const CALENDAR_TONES = {
+  default: { top: ['#A78BFA', '#6D28D9'], num: '#7C3AED' },
+  teal:    { top: ['#00C6A7', '#00766A'], num: '#00766A' },
+  gold:    { top: ['#FFC94D', '#C8901A'], num: '#C8901A' },
+} as const;
+
+export function Calendar3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
   const id = useId().replace(/[:]/g, '_');
+  const palette = CALENDAR_TONES[tone];
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
       <defs>
@@ -203,8 +229,8 @@ export function Calendar3D({ size = 64, className }: Icon3DProps) {
           <stop offset="100%" stopColor="#E2E8F0" />
         </linearGradient>
         <linearGradient id={`${id}-top`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#A78BFA" />
-          <stop offset="100%" stopColor="#6D28D9" />
+          <stop offset="0%" stopColor={palette.top[0]} />
+          <stop offset="100%" stopColor={palette.top[1]} />
         </linearGradient>
         <linearGradient id={`${id}-rings`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#94A3B8" />
@@ -217,7 +243,7 @@ export function Calendar3D({ size = 64, className }: Icon3DProps) {
       <rect x="8" y="14" width="48" height="3" rx="1.5" fill="white" fillOpacity="0.3" />
       <rect x="18" y="9" width="3" height="10" rx="1.5" fill={`url(#${id}-rings)`} />
       <rect x="43" y="9" width="3" height="10" rx="1.5" fill={`url(#${id}-rings)`} />
-      <text x="32" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill="#7C3AED" fontFamily="ui-sans-serif, system-ui">31</text>
+      <text x="32" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill={palette.num} fontFamily="ui-sans-serif, system-ui">31</text>
       <circle cx="16" cy="36" r="1" fill="#CBD5E1" />
       <circle cx="22" cy="36" r="1" fill="#CBD5E1" />
       <circle cx="42" cy="36" r="1" fill="#CBD5E1" />

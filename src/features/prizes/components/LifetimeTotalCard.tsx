@@ -15,7 +15,12 @@ export function LifetimeTotalCard({ summary }: LifetimeTotalCardProps) {
   const { t } = useTranslation();
   const lang = useUIStore((s) => s.language);
 
-  const tiles: Array<{ label: string; value: string; Icon: ComponentType<{ size?: number }> }> = [
+  const tiles: Array<{
+    label: string;
+    value: string;
+    Icon: ComponentType<{ size?: number; tone?: 'default' | 'teal' | 'gold' }>;
+    tone?: 'default' | 'teal' | 'gold';
+  }> = [
     {
       label: t('prizes.totalWins'),
       value: formatNumber(summary.totalWins, lang),
@@ -30,6 +35,7 @@ export function LifetimeTotalCard({ summary }: LifetimeTotalCardProps) {
       label: t('prizes.thisMonth'),
       value: formatCompactIQD(summary.thisMonthIqd, lang),
       Icon: Calendar3D,
+      tone: 'teal',
     },
   ];
 
@@ -62,7 +68,7 @@ export function LifetimeTotalCard({ summary }: LifetimeTotalCardProps) {
           {tiles.map((tile) => (
             <div key={tile.label} className="rounded-xl bg-white/70 backdrop-blur p-3">
               <div className="mb-1.5">
-                <tile.Icon size={28} />
+                <tile.Icon size={28} tone={tile.tone} />
               </div>
               <div className="text-[10px] uppercase tracking-wider font-bold text-ink-500 mb-0.5 truncate">
                 {tile.label}

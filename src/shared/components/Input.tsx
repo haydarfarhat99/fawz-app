@@ -25,9 +25,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       )}
       <div
         className={cn(
-          'group relative flex items-center rounded-xl border bg-white transition-all duration-200',
-          'border-ink-200 focus-within:border-brand-500 focus-within:ring-4 focus-within:ring-brand-100',
-          error && 'border-danger-500 focus-within:border-danger-500 focus-within:ring-danger-100',
+          'group relative flex items-center rounded-xl border-2 bg-white transition-all duration-150',
+          'border-ink-200 focus-within:border-brand-500 focus-within:shadow-[0_0_0_3px_rgba(0,198,167,0.18)]',
+          error && 'border-danger-500 focus-within:border-danger-500 focus-within:shadow-[0_0_0_3px_rgba(239,68,68,0.18)]',
         )}
       >
         {iconStart && <span className="ps-3 text-ink-400">{iconStart}</span>}
@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           ref={ref}
           id={inputId}
           className={cn(
-            'flex-1 bg-transparent py-3 px-3 text-sm text-ink-900 placeholder:text-ink-400 outline-none',
+            'flex-1 border-0 bg-transparent py-3 px-3 text-sm text-ink-900 placeholder:text-ink-400 outline-none focus:outline-none focus:ring-0 focus:shadow-none appearance-none',
             'disabled:cursor-not-allowed disabled:opacity-60',
             iconStart && 'ps-2',
             iconEnd && 'pe-2',

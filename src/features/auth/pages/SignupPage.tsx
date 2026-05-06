@@ -1,13 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, UserPlus, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { Input } from '@shared/components/Input';
-import { Button } from '@shared/components/Button';
 import { usePageTitle } from '@shared/hooks/usePageTitle';
 import { AppError, ValidationError } from '@core/network/types/apiError';
-import { AuthCard } from '../components/AuthCard';
 import { PasswordStrength } from '../components/PasswordStrength';
 import { useRequestCode, useSignup } from '../services/auth.service';
 
@@ -99,21 +97,29 @@ export default function SignupPage() {
   };
 
   return (
-    <AuthCard
-      icon={<UserPlus className="size-7" />}
-      iconTone="from-brand-500 to-brand-700"
-      title={t('auth.createAccount')}
-      subtitle={t('auth.createAccountSubtitle')}
-      footer={
-        <p className="text-center text-sm text-ink-500">
-          {t('auth.haveAccount')}{' '}
-          <Link to="/login" className="font-bold text-brand-700 hover:text-brand-800 transition-colors">
-            {t('auth.signIn')}
-          </Link>
-        </p>
-      }
-    >
-      <form onSubmit={submit} className="space-y-4">
+    <div className="animate-slide-up">
+      <div className="flex flex-col items-center mb-8">
+        <div className="relative">
+          <div className="absolute inset-0 -z-10 blur-3xl rounded-full scale-110 bg-teal-500/30" />
+          <img
+            src="/brand/fawz-logo.png"
+            alt="FAWZ"
+            width={180}
+            height={228}
+            className="drop-shadow-[0_24px_48px_rgba(0,198,167,0.25)]"
+          />
+        </div>
+      </div>
+
+      <div className="rounded-3xl bg-white/95 backdrop-blur-xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.4)] border border-white/40 p-6 md:p-8">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-black text-ink-900 mb-1 tracking-tight">
+            {t('auth.createAccount')}
+          </h1>
+          <p className="text-sm text-ink-500">{t('auth.createAccountSubtitle')}</p>
+        </div>
+
+        <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <Input
             label={t('auth.firstName')}
@@ -183,16 +189,34 @@ export default function SignupPage() {
           required
         />
         <p className="text-[11px] text-ink-400 leading-relaxed">{t('auth.termsHint')}</p>
-        <Button
+        <button
           type="submit"
-          fullWidth
-          size="lg"
-          loading={signup.isPending}
-          iconEnd={!signup.isPending ? <ArrowRight className="size-4 rtl:rotate-180" /> : undefined}
+          disabled={signup.isPending}
+          className="group relative w-full h-12 rounded-2xl font-bold text-white overflow-hidden shadow-[0_12px_32px_-8px_rgba(0,198,167,0.6)] disabled:opacity-60 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+          style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #009E86 60%, #00312E 100%)' }}
         >
-          {t('auth.createAccount')}
-        </Button>
-      </form>
-    </AuthCard>
+          <span className="inline-flex items-center justify-center gap-2 tracking-wide">
+            {signup.isPending ? (
+              <span className="size-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+            ) : (
+              <>
+                {t('auth.createAccount')}
+                <ArrowRight className="size-4 rtl:rotate-180" />
+              </>
+            )}
+          </span>
+        </button>
+        </form>
+
+        <div className="mt-6 pt-5 border-t border-ink-100">
+          <p className="text-center text-sm text-ink-500">
+            {t('auth.haveAccount')}{' '}
+            <Link to="/login" className="font-bold text-teal-700 hover:text-teal-900 transition-colors">
+              {t('auth.signIn')}
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

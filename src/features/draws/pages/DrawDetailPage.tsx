@@ -30,7 +30,7 @@ export default function DrawDetailPage() {
   if (isLoading) {
     return (
       <ScreenWrapper>
-        <PageHeader title={<Skeleton className="h-7 w-40" />} back />
+        <PageHeader title={<Skeleton className="h-7 w-40" />} back="/home" />
         <Card padding="lg" className="mb-4">
           <Skeleton className="h-7 w-48 mb-3" />
           <Skeleton className="h-5 w-32 mb-6" />
@@ -43,7 +43,7 @@ export default function DrawDetailPage() {
   if (notFound) {
     return (
       <ScreenWrapper>
-        <PageHeader title={t('draws.detailTitle')} back />
+        <PageHeader title={t('draws.detailTitle')} back="/home" />
         <Card variant="elevated" padding="lg">
           <EmptyState
             icon={<Tv className="size-9" />}
@@ -63,7 +63,7 @@ export default function DrawDetailPage() {
   if (isError || !draw) {
     return (
       <ScreenWrapper>
-        <PageHeader title={t('draws.detailTitle')} back />
+        <PageHeader title={t('draws.detailTitle')} back="/home" />
         <ErrorState
           title={t('states.error.title')}
           subtitle={t('states.error.subtitle')}
@@ -87,7 +87,7 @@ export default function DrawDetailPage() {
           month: 'long',
           year: 'numeric',
         })}
-        back
+        back="/home"
       />
 
       {isWinner && (

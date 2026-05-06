@@ -152,7 +152,7 @@ export default function HomePage() {
           onClick={() => navigate('/entries?filter=weekly')}
           className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Ticket3D size={48} />
+          <Ticket3D size={48} tone="teal" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.weeklyTickets')}</div>
             <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(47, lang)}</div>
@@ -163,7 +163,7 @@ export default function HomePage() {
           onClick={() => navigate('/entries?filter=monthly')}
           className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Calendar3D size={48} />
+          <Calendar3D size={48} tone="teal" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.monthlyTickets')}</div>
             <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(18, lang)}</div>
@@ -174,7 +174,7 @@ export default function HomePage() {
           onClick={() => navigate('/prizes')}
           className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Gift3D size={48} />
+          <Gift3D size={48} tone="gold" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.totalWinnings')}</div>
             <div className="text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(0, lang)}</div>
