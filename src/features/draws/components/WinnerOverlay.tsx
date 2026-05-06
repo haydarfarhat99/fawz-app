@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Share2, ArrowRight, Sparkles, Trophy } from 'lucide-react';
+import { Share2, ArrowRight } from 'lucide-react';
+import { Trophy3D } from '@shared/components/Icon3D';
 import { useTranslation } from 'react-i18next';
 import { useUIStore } from '@stores/ui.store';
 import { Button } from '@shared/components/Button';
@@ -17,16 +18,10 @@ interface WinnerOverlayProps {
   onViewResults: () => void;
 }
 
-const tierLabels: Record<WinnerTier, string> = {
-  last_4: 'Last 4',
-  last_6: 'Last 6',
-  last_8: 'Last 8',
-  last_10: 'Last 10 — Jackpot',
-};
-
 export function WinnerOverlay({ tier, prizeIqd, fawzNumber, onShare, onViewResults }: WinnerOverlayProps) {
   const { t } = useTranslation();
   const lang = useUIStore((s) => s.language);
+  const tierLabel = t(`draws.tier_${tier}` as const);
   const counted = useCountUp(prizeIqd, { durationMs: 1600, delayMs: 400 });
   const [shimmerOn, setShimmerOn] = useState(false);
 
@@ -56,16 +51,15 @@ export function WinnerOverlay({ tier, prizeIqd, fawzNumber, onShare, onViewResul
         <div className="mx-auto mb-5 relative">
           <div className="absolute inset-0 -z-10 blur-3xl bg-gold-400/70 rounded-full animate-pulse-glow" />
           <div
-            className="mx-auto flex size-36 items-center justify-center rounded-[2rem] bg-gradient-to-br from-gold-200 via-gold-400 to-gold-600 shadow-[0_30px_60px_-15px_rgba(251,191,36,0.7),inset_0_2px_0_rgba(255,255,255,0.5)] icon-3d"
+            className="mx-auto inline-block"
             style={{ animation: 'trophy-pop 1s cubic-bezier(0.16, 1, 0.3, 1), bounce-soft 1.4s 1s infinite' }}
           >
-            <Trophy className="size-20 text-ink-900 drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]" />
+            <Trophy3D size={144} />
           </div>
         </div>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-gold-200 text-xs font-bold mb-3">
-          <Sparkles className="size-3.5" />
-          <span>{tierLabels[tier]}</span>
+          <span>{tierLabel}</span>
         </div>
 
         <h1

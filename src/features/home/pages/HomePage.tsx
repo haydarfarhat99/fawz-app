@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Calendar, CalendarDays, Trophy, Tv, Sparkles, ArrowRight, Gift, Clover, Eye } from 'lucide-react';
+import { Tv, Sparkles, ArrowRight, Eye } from 'lucide-react';
+import { Trophy3D, Ticket3D, Calendar3D, Gift3D, Clover3D } from '@shared/components/Icon3D';
 import { useNavigate } from 'react-router-dom';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
 import { Card } from '@shared/components/Card';
@@ -31,7 +32,7 @@ export default function HomePage() {
       <div className="mb-6">
         <p className="text-sm text-ink-500">{t('home.welcomeBack')}</p>
         <h1 className="text-2xl font-bold text-ink-900">
-          {user?.fullName ?? t('home.playerFallback')} ✨
+          {user?.fullName ?? t('home.playerFallback')}
         </h1>
       </div>
 
@@ -74,10 +75,8 @@ export default function HomePage() {
             </Button>
           </div>
           <div className="relative h-48 md:h-56 flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="size-44 rounded-full bg-gradient-to-br from-gold-300 via-gold-400 to-gold-600 shadow-[0_20px_50px_-10px_rgba(251,191,36,0.6)] animate-float flex items-center justify-center">
-                <Trophy className="size-20 text-white drop-shadow-lg" />
-              </div>
+            <div className="absolute inset-0 flex items-center justify-center animate-float">
+              <Trophy3D size={160} />
             </div>
           </div>
         </div>
@@ -119,9 +118,7 @@ export default function HomePage() {
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <Card interactive onClick={() => navigate('/entries?filter=weekly')} padding="md">
           <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white icon-3d">
-              <Calendar className="size-6" />
-            </div>
+            <Ticket3D size={48} />
             <div className="min-w-0">
               <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.weeklyTickets')}</div>
               <div className="text-2xl font-bold text-ink-900 tabular-nums">
@@ -132,9 +129,7 @@ export default function HomePage() {
         </Card>
         <Card interactive onClick={() => navigate('/entries?filter=monthly')} padding="md">
           <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-300 to-gold-600 text-ink-900 icon-3d">
-              <CalendarDays className="size-6" />
-            </div>
+            <Calendar3D size={48} />
             <div className="min-w-0">
               <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.monthlyTickets')}</div>
               <div className="text-2xl font-bold text-ink-900 tabular-nums">{formatNumber(18, lang)}</div>
@@ -143,9 +138,7 @@ export default function HomePage() {
         </Card>
         <Card interactive onClick={() => navigate('/prizes')} padding="md">
           <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-success-50 to-success-500/30 text-success-600 icon-3d">
-              <Gift className="size-6" />
-            </div>
+            <Gift3D size={48} />
             <div className="min-w-0">
               <div className="text-xs uppercase tracking-wider text-ink-500">{t('home.totalWinnings')}</div>
               <div className="text-2xl font-bold text-ink-900 tabular-nums">{formatCompactIQD(0, lang)}</div>
@@ -209,9 +202,7 @@ function DemoSection({ type, jackpotPrize, navigate, t }: DemoSectionProps) {
           onClick={() => navigate(`${linkBase}&scenario=jackpot`)}
           className="group flex items-center gap-3 rounded-xl bg-gradient-to-br from-danger-500 via-gold-500 to-brand-700 p-3 text-start shadow-[0_6px_18px_-6px_rgba(251,191,36,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_-6px_rgba(251,191,36,0.7)]"
         >
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/25 backdrop-blur-sm text-white icon-3d">
-            <Trophy className="size-5" />
-          </div>
+          <Trophy3D size={40} />
           <div className="flex-1 min-w-0">
             <div className="text-xs font-black text-white">
               {t('home.demoJackpotShort')} · {jackpotPrize} {t('currency.iqd')}
@@ -225,9 +216,7 @@ function DemoSection({ type, jackpotPrize, navigate, t }: DemoSectionProps) {
           onClick={() => navigate(`${linkBase}&scenario=lose`)}
           className="group flex items-center gap-3 rounded-xl bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 p-3 text-start shadow-[0_6px_18px_-6px_rgba(124,58,237,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_-6px_rgba(124,58,237,0.7)]"
         >
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/15 backdrop-blur-sm text-white icon-3d">
-            <Clover className="size-5" />
-          </div>
+          <Clover3D size={40} />
           <div className="flex-1 min-w-0">
             <div className="text-xs font-black text-white">{t('home.demoLoseTitle')}</div>
             <div className="text-[10px] text-white/80">{t('home.demoLoseSubtitle')}</div>

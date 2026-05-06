@@ -9,11 +9,11 @@ import { StatusBadge } from './StatusBadge';
 import { PayoutTimeline } from './PayoutTimeline';
 import type { Prize, PrizeTier } from '../types/prize.types';
 
-const tierConfig: Record<PrizeTier, { label: string; tone: string; mark: string }> = {
-  last_4: { label: 'Last 4', tone: 'from-brand-400 to-brand-700', mark: 'bg-brand-100 text-brand-700' },
-  last_6: { label: 'Last 6', tone: 'from-info-500 to-info-500/70', mark: 'bg-info-50 text-info-500' },
-  last_8: { label: 'Last 8', tone: 'from-gold-300 to-gold-600', mark: 'bg-gold-100 text-gold-700' },
-  last_10: { label: 'Last 10 — Jackpot', tone: 'from-danger-500 via-gold-500 to-brand-700', mark: 'bg-danger-50 text-danger-600' },
+const tierConfig: Record<PrizeTier, { tone: string; mark: string; markShort: string }> = {
+  last_4: { tone: 'from-brand-400 to-brand-700', mark: 'bg-brand-100 text-brand-700', markShort: '4' },
+  last_6: { tone: 'from-info-500 to-info-500/70', mark: 'bg-info-50 text-info-500', markShort: '6' },
+  last_8: { tone: 'from-gold-300 to-gold-600', mark: 'bg-gold-100 text-gold-700', markShort: '8' },
+  last_10: { tone: 'from-danger-500 via-gold-500 to-brand-700', mark: 'bg-danger-50 text-danger-600', markShort: '★' },
 };
 
 interface PrizeRowProps {
@@ -58,7 +58,7 @@ export function PrizeRow({ prize, defaultOpen = false }: PrizeRowProps) {
               tier.mark,
             )}
           >
-            {tier.label.replace('Last ', '').replace(' — Jackpot', '★')}
+            {tier.markShort}
           </span>
         </div>
 
@@ -91,7 +91,7 @@ export function PrizeRow({ prize, defaultOpen = false }: PrizeRowProps) {
               <div className="text-[10px] uppercase tracking-wider font-bold text-ink-500 mb-1">
                 {t('prizes.matchTier')}
               </div>
-              <div className="text-sm font-bold text-ink-900">{tier.label}</div>
+              <div className="text-sm font-bold text-ink-900">{t(`draws.tier_${prize.tier}`)}</div>
             </div>
             <div className="rounded-xl bg-white p-3 border border-ink-100">
               <div className="text-[10px] uppercase tracking-wider font-bold text-ink-500 mb-1">

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Trophy, Share2, Download, Copy, Sparkles } from 'lucide-react';
+import { ArrowLeft, Trophy, Share2, Download, Copy } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useUIStore } from '@stores/ui.store';
 import { Button } from '@shared/components/Button';
@@ -9,13 +9,31 @@ import { Confetti } from '../components/Confetti';
 import { copyToClipboard } from '@core/utils/helpers';
 import { formatCompactIQD } from '@core/utils/formatters';
 
+interface SessionWin {
+  tier: 'last_4' | 'last_6' | 'last_8' | 'last_10';
+  prize: number;
+  fawzNumber: string;
+}
+
+function readSessionWin(): SessionWin {
+  try {
+    const raw = sessionStorage.getItem('fawz.lastDraw.win');
+    if (raw) return JSON.parse(raw) as SessionWin;
+  } catch {
+    /* ignore */
+  }
+  return { tier: 'last_4', prize: 10_000, fawzNumber: '0000000000' };
+}
+
 export default function WinnerSharePage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const lang = useUIStore((s) => s.language);
   usePageTitle(t('draws.shareWin'));
 
-  const shareText = `🎉 ${t('draws.iJustWon')} ${formatCompactIQD(10_000, lang)} ${t('draws.onFawz')}!`;
+  const win = readSessionWin();
+  const tierLabel = t(`draws.tier_${win.tier}` as const);
+  const shareText = `🎉 ${t('draws.iJustWon')} ${formatCompactIQD(win.prize, lang)} ${t('draws.onFawz')}!`;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -45,27 +63,24 @@ export default function WinnerSharePage() {
           <ArrowLeft className="size-5 rtl:rotate-180" />
         </button>
 
-        <div
-          className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-7 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5)] animate-scale-in"
-        >
+        <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-7 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5)] animate-scale-in">
           <div className="text-center">
             <div className="inline-flex size-20 items-center justify-center rounded-3xl bg-gradient-to-br from-gold-300 to-gold-600 text-ink-900 icon-3d mb-4 animate-bounce-soft">
               <Trophy className="size-10 drop-shadow-lg" />
             </div>
             <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/15 text-gold-200 text-[11px] font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="size-3" />
-              FAWZ Winner
+              {t('draws.fawzWinnerBadge')}
             </div>
             <p className="text-white/80 mb-1 text-sm">{t('draws.iJustWon')}</p>
             <h1 className="text-5xl font-black text-gradient-gold mb-1 tabular-nums">
-              {formatCompactIQD(10_000, lang)}
+              {formatCompactIQD(win.prize, lang)}
             </h1>
             <p className="text-white/60 text-sm mb-5">{t('draws.onFawz')}</p>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
               <div className="text-[10px] uppercase tracking-[0.2em] text-gold-300 font-bold mb-1">
                 {t('draws.matchTier')}
               </div>
-              <div className="text-2xl font-black text-white">{t('draws.tier_last_4')}</div>
+              <div className="text-2xl font-black text-white">{tierLabel}</div>
             </div>
           </div>
         </div>

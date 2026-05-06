@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Trophy, Coins, TrendingUp, Calendar, Sparkles } from 'lucide-react';
+import { Trophy, TrendingUp, Calendar, Sparkles } from 'lucide-react';
+import { Coin3D } from '@shared/components/Icon3D';
 import { useUIStore } from '@stores/ui.store';
 import { Card } from '@shared/components/Card';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
@@ -45,8 +46,8 @@ export function LifetimeTotalCard({ summary }: LifetimeTotalCardProps) {
             <Sparkles className="size-3" />
             {t('prizes.lifetimeWinnings')}
           </div>
-          <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-300 to-gold-600 text-ink-900 icon-3d animate-float">
-            <Coins className="size-6" />
+          <div className="animate-float">
+            <Coin3D size={56} />
           </div>
         </div>
 

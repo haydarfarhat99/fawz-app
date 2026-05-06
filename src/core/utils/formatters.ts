@@ -38,7 +38,9 @@ export function formatNumber(value: number, locale = 'en'): string {
 }
 
 export function formatFawzNumber(num: string | number): string {
-  const s = String(num).padStart(10, '0');
+  // Force exactly 10 digits — pad shorter, take last 10 of longer.
+  const digits = String(num).replace(/\D/g, '');
+  const s = digits.padStart(10, '0').slice(-10);
   return `${s.slice(0, 4)} ${s.slice(4, 7)} ${s.slice(7, 10)}`;
 }
 

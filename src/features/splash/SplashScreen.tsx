@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Trophy, Sparkles } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { playSplashWhoosh } from '@core/utils/sound';
 
@@ -52,10 +52,23 @@ export function SplashScreen({ onComplete, duration = 1900 }: SplashScreenProps)
           <div className="absolute inset-0 -z-10 blur-3xl bg-gold-400/60 rounded-full scale-150 animate-pulse-glow" />
           <div className="relative flex size-32 items-center justify-center rounded-[2.25rem] bg-gradient-to-br from-brand-400 via-brand-600 to-brand-800 shadow-[0_30px_60px_-15px_rgba(124,58,237,0.7),inset_0_2px_0_rgba(255,255,255,0.4)]">
             <div className="absolute inset-1 rounded-[1.95rem] bg-gradient-to-br from-white/20 to-transparent" />
-            <span className="relative font-black text-white text-7xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]">ف</span>
-            <span className="absolute -top-2 -end-2 flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-gold-300 to-gold-500 shadow-[0_8px_18px_-6px_rgba(251,191,36,0.7)] ring-3 ring-white/30 animate-bounce-soft">
-              <Sparkles className="size-5 text-ink-900" />
-            </span>
+            <svg width="80" height="80" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="relative drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
+              <defs>
+                <linearGradient id="splash-mark-gold" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#FCD34D" />
+                  <stop offset="50%" stopColor="#F59E0B" />
+                  <stop offset="100%" stopColor="#B45309" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M16 4 L26 16 L16 28 L6 16 Z"
+                fill="url(#splash-mark-gold)"
+                stroke="white"
+                strokeWidth="0.6"
+                strokeOpacity="0.5"
+              />
+              <path d="M16 4 L26 16 L16 13 Z" fill="white" fillOpacity="0.3" />
+            </svg>
           </div>
         </div>
 

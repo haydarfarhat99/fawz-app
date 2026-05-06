@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Sparkles, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { Input } from '@shared/components/Input';
@@ -69,14 +69,8 @@ export default function LoginPage() {
 
   return (
     <AuthCard
-      icon={<Sparkles className="size-7" />}
-      iconTone="from-gold-300 to-gold-600"
-      badge={
-        <>
-          <Sparkles className="size-3.5" />
-          {t('auth.winCashWeekly')}
-        </>
-      }
+      icon={<LogIn className="size-7" />}
+      iconTone="from-brand-500 to-brand-700"
       title={t('auth.welcomeTitle')}
       subtitle={t('auth.welcomeSubtitle')}
       footer={

@@ -1,4 +1,5 @@
-import { ArrowRight, UserPlus, Clover, Sparkles } from 'lucide-react';
+import { ArrowRight, UserPlus, Sparkles } from 'lucide-react';
+import { Clover3D } from '@shared/components/Icon3D';
 import { useTranslation } from 'react-i18next';
 import { useUIStore } from '@stores/ui.store';
 import { Button } from '@shared/components/Button';
@@ -26,12 +27,12 @@ export function NonWinnerOverlay({ remainingEntries, onInvite, onViewResults }: 
 
       <div className="relative w-full max-w-md text-center text-white animate-scale-in">
         <div className="relative mx-auto mb-5">
-          <div className="absolute inset-0 -z-10 blur-3xl bg-brand-400/40 rounded-full" />
+          <div className="absolute inset-0 -z-10 blur-3xl bg-success-400/40 rounded-full" />
           <div
-            className="mx-auto flex size-28 items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-success-500 via-brand-500 to-brand-700 shadow-[0_20px_40px_-10px_rgba(16,185,129,0.5),inset_0_2px_0_rgba(255,255,255,0.3)] icon-3d"
+            className="mx-auto inline-block"
             style={{ animation: 'bounce-soft 2s ease-in-out infinite' }}
           >
-            <Clover className="size-14 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]" />
+            <Clover3D size={120} />
           </div>
         </div>
 

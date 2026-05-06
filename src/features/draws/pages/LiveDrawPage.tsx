@@ -67,7 +67,7 @@ export default function LiveDrawPage() {
       <div className="absolute -top-32 start-1/4 size-[500px] rounded-full bg-brand-600/20 blur-[120px]" />
       <div className="absolute -bottom-32 end-1/4 size-[500px] rounded-full bg-gold-400/15 blur-[120px]" />
 
-      <div className="relative max-w-3xl mx-auto px-4 py-5 md:py-8 pb-24 md:pb-10">
+      <div className="relative max-w-3xl mx-auto px-3 sm:px-4 py-5 md:py-8 pb-24 md:pb-10">
         <div className="flex items-center justify-between mb-6">
           <button
             type="button"

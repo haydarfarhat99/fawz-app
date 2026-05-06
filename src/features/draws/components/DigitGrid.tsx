@@ -54,7 +54,7 @@ export function DigitGrid({
             </div>
             <div
               dir="ltr"
-              className="grid grid-cols-10 gap-1.5 md:gap-2 p-3 md:p-4 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-sm"
+              className="grid grid-cols-10 gap-0.5 sm:gap-1 md:gap-2 p-1.5 sm:p-2 md:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-sm"
             >
               {Array.from({ length: digitsPerNumber }).map((_, posLtr) => {
                 const position = digitsPerNumber - 1 - posLtr;
