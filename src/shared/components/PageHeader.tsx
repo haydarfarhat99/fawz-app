@@ -14,7 +14,7 @@ interface PageHeaderProps {
 export function PageHeader({ title, description, back, actions, className }: PageHeaderProps) {
   const navigate = useNavigate();
   return (
-    <div className={cn('flex items-start justify-between gap-4 mb-6', className)}>
+    <div className={cn('hidden lg:flex items-start justify-between gap-4 mb-6', className)}>
       <div className="flex items-center gap-3 min-w-0">
         {back && (
           <button

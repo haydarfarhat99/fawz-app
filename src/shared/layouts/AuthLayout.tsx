@@ -15,7 +15,7 @@ export function AuthLayout() {
       <OfflineBanner />
 
       <div className="absolute top-4 end-4 z-20">
-        <DataSourceToggle />
+        <DataSourceToggle variant="3d" />
       </div>
 
       <div className="relative flex min-h-dvh items-center justify-center px-4 py-10">

@@ -35,15 +35,6 @@ export function WinnerOverlay({ tier, prizeIqd, fawzNumber, onShare, onViewResul
       <div className="absolute inset-0 bg-gradient-to-br from-gold-700/95 via-brand-900/95 to-ink-950/97 backdrop-blur-xl" />
       <Confetti count={120} />
 
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
-      >
-        <div className="size-[800px] animate-rays opacity-50" style={{
-          background: 'conic-gradient(from 0deg, transparent 0deg, rgba(251,191,36,0.18) 18deg, transparent 36deg, transparent 54deg, rgba(251,191,36,0.18) 72deg, transparent 90deg, transparent 108deg, rgba(251,191,36,0.18) 126deg, transparent 144deg, transparent 162deg, rgba(251,191,36,0.18) 180deg, transparent 198deg, transparent 216deg, rgba(251,191,36,0.18) 234deg, transparent 252deg, transparent 270deg, rgba(251,191,36,0.18) 288deg, transparent 306deg, transparent 324deg, rgba(251,191,36,0.18) 342deg, transparent 360deg)',
-        }} />
-      </div>
-
       <div className="absolute -top-32 start-1/4 size-96 rounded-full bg-gold-400/40 blur-3xl animate-pulse-glow" />
       <div className="absolute -bottom-32 end-1/4 size-96 rounded-full bg-brand-400/40 blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
 

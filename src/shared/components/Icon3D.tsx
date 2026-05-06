@@ -580,3 +580,43 @@ export function User3D({ size = 64, className }: Icon3DProps) {
     </svg>
   );
 }
+
+/* =============================== PARTY POPPER (celebration, multicolor) =============================== */
+export function Party3D({ size = 64, className }: Icon3DProps) {
+  const id = useId().replace(/[:]/g, '_');
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
+      <defs>
+        <linearGradient id={`${id}-cone`} x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stopColor="#7C3AED" />
+          <stop offset="60%" stopColor="#A855F7" />
+          <stop offset="100%" stopColor="#EC4899" />
+        </linearGradient>
+        <linearGradient id={`${id}-cone-shine`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="white" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* Cone body — angled lower-left to upper-right */}
+      <path d="M8 56 L26 38 L36 48 L14 58 Z" fill={`url(#${id}-cone)`} />
+      <path d="M8 56 L26 38 L36 48 L14 58 Z" fill={`url(#${id}-cone-shine)`} />
+      {/* Cone rim stripe */}
+      <path d="M22 42 L32 52" stroke="white" strokeOpacity="0.55" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Streamers (curly lines) */}
+      <path d="M30 36 Q40 24 52 22" stroke="#FBBF24" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M28 40 Q44 32 58 36" stroke="#22C55E" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M34 42 Q48 44 56 50" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      {/* Confetti pieces — multicolour squares + dots */}
+      <rect x="46" y="14" width="3.5" height="3.5" fill="#EF4444" transform="rotate(20 47.75 15.75)" />
+      <rect x="56" y="28" width="3.5" height="3.5" fill="#FBBF24" transform="rotate(-15 57.75 29.75)" />
+      <rect x="40" y="22" width="3" height="3" fill="#22C55E" transform="rotate(40 41.5 23.5)" />
+      <circle cx="50" cy="42" r="1.8" fill="#EC4899" />
+      <circle cx="56" cy="20" r="1.5" fill="#3B82F6" />
+      <circle cx="38" cy="30" r="1.4" fill="#FBBF24" />
+      <circle cx="52" cy="36" r="1.6" fill="#22C55E" />
+      <rect x="34" y="14" width="2.5" height="2.5" fill="#A855F7" transform="rotate(30 35.25 15.25)" />
+      {/* Top sparkle */}
+      <path d="M44 8 L46 12 L50 14 L46 16 L44 20 L42 16 L38 14 L42 12 Z" fill="#FFE7A3" />
+    </svg>
+  );
+}

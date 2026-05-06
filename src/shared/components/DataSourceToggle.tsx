@@ -2,10 +2,11 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Database, FlaskConical } from 'lucide-react';
 import { useUIStore } from '@stores/ui.store';
+import { Beaker3D } from '@shared/components/Icon3D';
 import { cn } from '@core/utils/cn';
 
 interface DataSourceToggleProps {
-  variant?: 'pill' | 'compact';
+  variant?: 'pill' | 'compact' | '3d';
   className?: string;
 }
 
@@ -28,6 +29,33 @@ export function DataSourceToggle({ variant = 'pill', className }: DataSourceTogg
   const switchLabel = isReal
     ? t('common.dataSource.switchToMock')
     : t('common.dataSource.switchToReal');
+
+  if (variant === '3d') {
+    return (
+      <button
+        type="button"
+        onClick={handle}
+        title={tooltip}
+        aria-label={switchLabel}
+        className={cn(
+          'relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90 hover:scale-105',
+          className,
+        )}
+      >
+        <Beaker3D size={44} />
+        <span
+          className="absolute -bottom-0.5 -end-0.5 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[8px] font-black ring-2 ring-white tabular-nums"
+          style={
+            isReal
+              ? { background: '#10b981', color: 'white' }
+              : { background: '#FFC94D', color: '#1a1a1a' }
+          }
+        >
+          {isReal ? 'L' : 'M'}
+        </span>
+      </button>
+    );
+  }
 
   if (variant === 'compact') {
     return (

@@ -1,25 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Tv, Sparkles, ArrowRight, Eye } from 'lucide-react';
-import {
-  Trophy3D,
-  Ticket3D,
-  Calendar3D,
-  Gift3D,
-  Clover3D,
-  Bell3D,
-  Globe3D,
-  Beaker3D,
-} from '@shared/components/Icon3D';
+import { Trophy3D, Ticket3D, Calendar3D, Gift3D, Clover3D } from '@shared/components/Icon3D';
 import { useNavigate } from 'react-router-dom';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
-import { Avatar } from '@shared/components/Avatar';
 import { useAuth } from '@shared/hooks/useAuth';
 import { usePageTitle } from '@shared/hooks/usePageTitle';
 import { useCountdown } from '@shared/hooks/useCountdown';
 import { useUIStore } from '@stores/ui.store';
-import { setLanguage } from '@core/i18n';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
-import { useUnreadCount } from '@features/notifications/services/notification.service';
 
 const NEXT_DRAW = (() => {
   const d = new Date();
@@ -33,103 +21,34 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const lang = useUIStore((s) => s.language);
-  const setStoreLanguage = useUIStore((s) => s.setLanguage);
-  const dataSource = useUIStore((s) => s.dataSource);
-  const toggleDataSource = useUIStore((s) => s.toggleDataSource);
-  const { data: unreadCount = 0 } = useUnreadCount();
   usePageTitle(t('nav.home'));
   const countdown = useCountdown(NEXT_DRAW);
-
-  const toggleLanguage = () => {
-    const next = lang === 'en' ? 'ar' : 'en';
-    setStoreLanguage(next);
-    setLanguage(next);
-  };
 
   return (
     <ScreenWrapper>
       <div
-        className="relative overflow-hidden rounded-3xl mb-6 px-4 md:px-8 py-5 md:py-7 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
+        className="hidden lg:block relative overflow-hidden rounded-3xl mb-6 px-8 py-7 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
         style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
       >
         <div className="absolute -top-16 -end-16 size-56 rounded-full bg-fawzgold-300/25 blur-3xl" />
         <div className="absolute -bottom-16 -start-16 size-56 rounded-full bg-teal-300/30 blur-3xl" />
 
-        <div className="relative lg:hidden flex items-center justify-between gap-2 mb-4">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleDataSource}
-              aria-label={t('common.dataSource.label')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <Beaker3D size={44} />
-              <span
-                className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[8px] font-black ring-2 ring-teal-700 tabular-nums"
-                style={
-                  dataSource === 'real'
-                    ? { background: '#10b981', color: 'white' }
-                    : { background: '#FFC94D', color: '#1a1a1a' }
-                }
-              >
-                {dataSource === 'real' ? 'L' : 'M'}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              aria-label={t('common.language')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <Globe3D size={44} />
-              <span className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-fawzgold-400 px-1 text-[9px] font-black text-ink-900 ring-2 ring-teal-700 tabular-nums">
-                {lang === 'en' ? 'AR' : 'EN'}
-              </span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => navigate('/notifications')}
-              aria-label={t('nav.notifications')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <Bell3D size={44} />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -end-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[10px] font-black text-white px-1 ring-2 ring-teal-700 tabular-nums">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/profile')}
-              aria-label={t('nav.profile')}
-              className="group relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <span className="absolute inset-0 -z-10 rounded-full blur-md bg-fawzgold-400/45 animate-pulse-glow" />
-              <Avatar name={user?.fullName} src={user?.avatarUrl} size="lg" />
-            </button>
-          </div>
-        </div>
-
-        <div className="relative flex items-center gap-4 md:gap-5">
+        <div className="relative flex items-center gap-5">
           <div className="relative shrink-0">
             <div className="absolute inset-0 -z-10 blur-3xl bg-fawzgold-400/35 rounded-full scale-125" />
             <div className="absolute inset-0 -z-10 blur-xl bg-teal-400/30 rounded-2xl scale-110" />
             <img
               src="/brand/fawz-mark.png"
               alt="FAWZ"
-              className="size-20 md:size-24 drop-shadow-[0_14px_28px_rgba(10,15,14,0.55)]"
+              className="size-24 drop-shadow-[0_14px_28px_rgba(10,15,14,0.55)]"
             />
           </div>
           <div className="min-w-0">
             <p className="text-[11px] uppercase tracking-[0.22em] text-fawzgold-200 font-bold mb-1">
               {t('home.welcomeBack')}
             </p>
-            <p className="text-xs md:text-sm text-white/75 mb-1.5">{t('home.brandTagline')}</p>
-            <h1 className="text-2xl md:text-3xl font-black leading-tight truncate">
+            <p className="text-sm text-white/75 mb-1.5">{t('home.brandTagline')}</p>
+            <h1 className="text-3xl font-black leading-tight truncate">
               {user?.fullName ?? t('home.playerFallback')}
             </h1>
           </div>

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { BottomTabBar } from './BottomTabBar';
+import { MobileTopActions } from './MobileTopActions';
 import { OfflineBanner } from '@shared/components/OfflineBanner';
 import { ShariaDisclosureModal } from '@features/onboarding/components/ShariaDisclosureModal';
 import { useUIStore } from '@stores/ui.store';
@@ -28,6 +29,7 @@ export function AppLayout() {
       <Sidebar open={mobileSidebarOpen} onClose={closeMobileSidebar} />
       <div className="flex-1 min-w-0 flex flex-col">
         <Header onMenuClick={openMobileSidebar} />
+        <MobileTopActions />
         <OfflineBanner />
         <main className="flex-1 pb-20 lg:pb-0">
           <Outlet />
