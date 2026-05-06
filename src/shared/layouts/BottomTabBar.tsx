@@ -7,7 +7,7 @@ const items = [
   { to: '/home', icon: Home, key: 'home' as const },
   { to: '/entries', icon: Hash, key: 'myNumbers' as const },
   { to: '/challenges', icon: Trophy, key: 'challenges' as const },
-  { to: '/profile', icon: MoreHorizontal, key: 'more' as const },
+  { to: '/more', icon: MoreHorizontal, key: 'more' as const },
 ];
 
 export function BottomTabBar() {

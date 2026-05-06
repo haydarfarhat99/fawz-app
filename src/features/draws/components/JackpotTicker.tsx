@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useUIStore } from '@stores/ui.store';
@@ -6,21 +5,13 @@ import { formatNumber } from '@core/utils/formatters';
 
 interface JackpotTickerProps {
   baseAmount: number;
+  /** Kept for back-compat — the amount is always shown as a fixed value now. */
   active?: boolean;
 }
 
-export function JackpotTicker({ baseAmount, active = true }: JackpotTickerProps) {
+export function JackpotTicker({ baseAmount }: JackpotTickerProps) {
   const { t } = useTranslation();
   const lang = useUIStore((s) => s.language);
-  const [amount, setAmount] = useState(baseAmount);
-
-  useEffect(() => {
-    if (!active) return;
-    const interval = window.setInterval(() => {
-      setAmount((a) => a + Math.floor(Math.random() * 850) + 120);
-    }, 600);
-    return () => window.clearInterval(interval);
-  }, [active]);
 
   return (
     <div className="relative inline-flex items-center gap-3 rounded-2xl bg-gradient-to-br from-gold-300/20 via-gold-400/15 to-gold-600/20 border border-gold-300/30 backdrop-blur-md px-4 py-2.5 shadow-[0_8px_24px_-6px_rgba(251,191,36,0.3)]">
@@ -32,7 +23,7 @@ export function JackpotTicker({ baseAmount, active = true }: JackpotTickerProps)
           {t('draws.jackpot')}
         </div>
         <div className="text-lg md:text-xl font-black text-white tabular-nums leading-tight">
-          {formatNumber(amount, lang)}{' '}
+          {formatNumber(baseAmount, lang)}{' '}
           <span className="text-gold-300 text-sm">{t('currency.iqd')}</span>
         </div>
       </div>

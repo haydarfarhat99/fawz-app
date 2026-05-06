@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient, withFallback } from '@core/network/apiClient';
+import { DEMO_STATS } from '@core/mocks/demoStats';
 import type { FawzProfile } from '../types/profile.types';
 
 export const profileKeys = {
@@ -13,9 +14,9 @@ const DUMMY_PROFILE: FawzProfile = {
   email: 'test@fawz.io',
   tier: 'member',
   isNew: false,
-  lifetimeEntries: 312,
-  totalWins: 5,
-  totalWinningsIqd: 130_000,
+  lifetimeEntries: DEMO_STATS.lifetimeEntries,
+  totalWins: DEMO_STATS.totalWins,
+  totalWinningsIqd: DEMO_STATS.lifetimeWinningsIqd,
   referralCount: 11,
   weeklySparkStreak: 3,
   joinedAt: new Date(Date.now() - 90 * 86_400_000).toISOString(),

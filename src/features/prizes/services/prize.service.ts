@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient, withFallback } from '@core/network/apiClient';
 import { generateFawzNumber } from '@core/utils/helpers';
+import { DEMO_STATS } from '@core/mocks/demoStats';
 import type { Prize, PrizeSummary } from '../types/prize.types';
 
 export const prizeKeys = {
@@ -109,10 +110,10 @@ const DUMMY_PRIZES: Prize[] = [
 ];
 
 const DUMMY_SUMMARY: PrizeSummary = {
-  lifetimeIqd: DUMMY_PRIZES.filter((p) => p.payoutStatus === 'credited').reduce((s, p) => s + p.prizeIqd, 0),
-  totalWins: DUMMY_PRIZES.length,
-  biggestWinIqd: Math.max(...DUMMY_PRIZES.map((p) => p.prizeIqd)),
-  thisMonthIqd: DUMMY_PRIZES.filter((p) => Date.now() - new Date(p.drawDate).getTime() < 30 * 86_400_000).reduce((s, p) => s + p.prizeIqd, 0),
+  lifetimeIqd: DEMO_STATS.lifetimeWinningsIqd,
+  totalWins: DEMO_STATS.totalWins,
+  biggestWinIqd: DEMO_STATS.biggestWinIqd,
+  thisMonthIqd: DEMO_STATS.thisMonthWinningsIqd,
 };
 
 export function useMyPrizes() {

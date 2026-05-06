@@ -5,8 +5,7 @@ import { useAuth } from '@shared/hooks/useAuth';
 import { useUIStore } from '@stores/ui.store';
 import { setLanguage } from '@core/i18n';
 import { Avatar } from '@shared/components/Avatar';
-import { Logo } from '@shared/components/Logo';
-import { Bell3D, Globe3D, Beaker3D } from '@shared/components/Icon3D';
+import { Bell3D, Globe3D } from '@shared/components/Icon3D';
 import { useUnreadCount } from '@features/notifications/services/notification.service';
 
 interface HeaderProps {
@@ -19,8 +18,6 @@ export function Header({ onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
   const language = useUIStore((s) => s.language);
   const setStoreLanguage = useUIStore((s) => s.setLanguage);
-  const dataSource = useUIStore((s) => s.dataSource);
-  const toggleDataSource = useUIStore((s) => s.toggleDataSource);
   const { data: unreadCount = 0 } = useUnreadCount();
 
   const toggleLanguage = () => {
@@ -43,32 +40,8 @@ export function Header({ onMenuClick }: HeaderProps) {
               <Menu className="size-5" />
             </button>
           )}
-          <Logo size="md" />
         </div>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={toggleDataSource}
-            aria-label={t('common.dataSource.label')}
-            title={
-              dataSource === 'real'
-                ? t('common.dataSource.tooltipReal')
-                : t('common.dataSource.tooltipMock')
-            }
-            className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90 hover:scale-105"
-          >
-            <Beaker3D size={36} />
-            <span
-              className="absolute -bottom-0.5 -end-0.5 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[8px] font-black ring-2 ring-white tabular-nums"
-              style={
-                dataSource === 'real'
-                  ? { background: '#10b981', color: 'white' }
-                  : { background: '#FFC94D', color: '#1a1a1a' }
-              }
-            >
-              {dataSource === 'real' ? 'L' : 'M'}
-            </span>
-          </button>
           <button
             type="button"
             onClick={toggleLanguage}

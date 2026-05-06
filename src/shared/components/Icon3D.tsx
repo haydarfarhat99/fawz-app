@@ -104,42 +104,28 @@ interface TonedIconProps extends Icon3DProps {
   tone?: 'default' | 'teal' | 'gold';
 }
 
-const TICKET_TONES = {
-  default: ['#A78BFA', '#7C3AED', '#4C1D95'],
-  teal:    ['#5EE5C2', '#00C6A7', '#00766A'],
-  gold:    ['#FFE7A3', '#FFC94D', '#C8901A'],
-} as const;
-
-export function Ticket3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
-  const id = useId().replace(/[:]/g, '_');
-  const [c0, c1, c2] = TICKET_TONES[tone];
-  const star = tone === 'teal' ? '#FFC94D' : '#FBBF24';
+/**
+ * Ticket3D — image-based 3D render. The `tone` prop is kept for API
+ * compatibility but ignored since the image carries its own color treatment.
+ */
+export function Ticket3D({ size = 64, className }: TonedIconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-body`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={c0} />
-          <stop offset="50%" stopColor={c1} />
-          <stop offset="100%" stopColor={c2} />
-        </linearGradient>
-        <linearGradient id={`${id}-shine`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="white" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <g transform="rotate(-8 32 32)">
-        <path
-          d="M8 18 L56 18 Q60 18 60 22 L60 26 Q56 26 56 32 Q56 38 60 38 L60 42 Q60 46 56 46 L8 46 Q4 46 4 42 L4 38 Q8 38 8 32 Q8 26 4 26 L4 22 Q4 18 8 18 Z"
-          fill={`url(#${id}-body)`}
-        />
-        <path
-          d="M8 18 L56 18 Q60 18 60 22 L60 26 Q56 26 56 32 L8 32 Q8 26 4 26 L4 22 Q4 18 8 18 Z"
-          fill={`url(#${id}-shine)`}
-        />
-        <line x1="22" y1="22" x2="22" y2="42" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" strokeOpacity="0.5" />
-        <path d="M40 28 L42 34 L48 34 L43 38 L45 44 L40 40 L35 44 L37 38 L32 34 L38 34 Z" fill={star} />
-      </g>
-    </svg>
+    <img
+      src="/brand/ticket-3d.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 6px 12px rgba(15,23,42,0.18))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }
 
@@ -173,82 +159,55 @@ export function Clover3D({ size = 64, className }: Icon3DProps) {
 }
 
 /* =============================== GIFT =============================== */
-const GIFT_TONES = {
-  default: { box: ['#FB7185', '#E11D48', '#881337'], lid: ['#FECACA', '#E11D48'],            ribbon: ['#FCD34D', '#B45309'], knot: '#92400E' },
-  teal:    { box: ['#5EE5C2', '#00C6A7', '#00766A'], lid: ['#C8FBE8', '#00C6A7'],            ribbon: ['#FFE7A3', '#FFC94D'], knot: '#92400E' },
-  gold:    { box: ['#FFE7A3', '#FFC94D', '#C8901A'], lid: ['#FFF5D6', '#FFC94D'],            ribbon: ['#5EE5C2', '#00766A'], knot: '#00312E' },
-} as const;
-
-export function Gift3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
-  const id = useId().replace(/[:]/g, '_');
-  const palette = GIFT_TONES[tone];
+/**
+ * Gift3D — image-based 3D render. The `tone` prop is kept for API
+ * compatibility but ignored since the image carries its own color treatment.
+ */
+export function Gift3D({ size = 64, className }: TonedIconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-box`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={palette.box[0]} />
-          <stop offset="50%" stopColor={palette.box[1]} />
-          <stop offset="100%" stopColor={palette.box[2]} />
-        </linearGradient>
-        <linearGradient id={`${id}-lid`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={palette.lid[0]} />
-          <stop offset="100%" stopColor={palette.lid[1]} />
-        </linearGradient>
-        <linearGradient id={`${id}-ribbon`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={palette.ribbon[0]} />
-          <stop offset="100%" stopColor={palette.ribbon[1]} />
-        </linearGradient>
-      </defs>
-      <rect x="10" y="26" width="44" height="30" rx="3" fill={`url(#${id}-box)`} />
-      <rect x="10" y="26" width="44" height="6" rx="3" fill="white" fillOpacity="0.15" />
-      <rect x="6" y="20" width="52" height="10" rx="3" fill={`url(#${id}-lid)`} />
-      <rect x="6" y="20" width="52" height="2" fill="white" fillOpacity="0.4" />
-      <rect x="29" y="20" width="6" height="36" fill={`url(#${id}-ribbon)`} />
-      <rect x="29" y="20" width="2" height="36" fill="white" fillOpacity="0.4" />
-      <path d="M32 14 Q22 8 22 18 Q22 24 32 22 Q42 24 42 18 Q42 8 32 14" fill={`url(#${id}-ribbon)`} />
-      <circle cx="32" cy="20" r="2.5" fill={palette.knot} />
-    </svg>
+    <img
+      src="/brand/gift-3d.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 6px 12px rgba(15,23,42,0.18))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }
 
 /* =============================== CALENDAR =============================== */
-const CALENDAR_TONES = {
-  default: { top: ['#A78BFA', '#6D28D9'], num: '#7C3AED' },
-  teal:    { top: ['#00C6A7', '#00766A'], num: '#00766A' },
-  gold:    { top: ['#FFC94D', '#C8901A'], num: '#C8901A' },
-} as const;
-
-export function Calendar3D({ size = 64, className, tone = 'default' }: TonedIconProps) {
-  const id = useId().replace(/[:]/g, '_');
-  const palette = CALENDAR_TONES[tone];
+/**
+ * Calendar3D — image-based 3D render. Drop-in replacement for the previous
+ * SVG version. The `tone` prop is kept for API compatibility but ignored
+ * since the image carries its own color treatment.
+ */
+export function Calendar3D({ size = 64, className }: TonedIconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-body`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="white" />
-          <stop offset="100%" stopColor="#E2E8F0" />
-        </linearGradient>
-        <linearGradient id={`${id}-top`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={palette.top[0]} />
-          <stop offset="100%" stopColor={palette.top[1]} />
-        </linearGradient>
-        <linearGradient id={`${id}-rings`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#94A3B8" />
-          <stop offset="100%" stopColor="#475569" />
-        </linearGradient>
-      </defs>
-      <rect x="8" y="14" width="48" height="44" rx="4" fill={`url(#${id}-body)`} />
-      <rect x="8" y="14" width="48" height="14" rx="4" fill={`url(#${id}-top)`} />
-      <rect x="8" y="22" width="48" height="6" fill={`url(#${id}-top)`} />
-      <rect x="8" y="14" width="48" height="3" rx="1.5" fill="white" fillOpacity="0.3" />
-      <rect x="18" y="9" width="3" height="10" rx="1.5" fill={`url(#${id}-rings)`} />
-      <rect x="43" y="9" width="3" height="10" rx="1.5" fill={`url(#${id}-rings)`} />
-      <text x="32" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill={palette.num} fontFamily="ui-sans-serif, system-ui">31</text>
-      <circle cx="16" cy="36" r="1" fill="#CBD5E1" />
-      <circle cx="22" cy="36" r="1" fill="#CBD5E1" />
-      <circle cx="42" cy="36" r="1" fill="#CBD5E1" />
-      <circle cx="48" cy="36" r="1" fill="#CBD5E1" />
-    </svg>
+    <img
+      src="/brand/calendar-3d.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 6px 12px rgba(15,23,42,0.18))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }
 
@@ -644,5 +603,124 @@ export function Party3D({ size = 64, className }: Icon3DProps) {
       {/* Top sparkle */}
       <path d="M44 8 L46 12 L50 14 L46 16 L44 20 L42 16 L38 14 L42 12 Z" fill="#FFE7A3" />
     </svg>
+  );
+}
+
+/* ===================== LUCK BADGE (gold rosette + shamrock + ribbons) ===================== */
+export function LuckBadge3D({ size = 64, className }: Icon3DProps) {
+  const id = useId().replace(/[:]/g, '_');
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
+      <defs>
+        <radialGradient id={`${id}-disc`} cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#FFF5D6" />
+          <stop offset="35%" stopColor="#FFD978" />
+          <stop offset="70%" stopColor="#F2B324" />
+          <stop offset="100%" stopColor="#92400E" />
+        </radialGradient>
+        <radialGradient id={`${id}-disc-shine`} cx="32%" cy="22%" r="35%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id={`${id}-rim`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFE7A3" />
+          <stop offset="100%" stopColor="#C8901A" />
+        </linearGradient>
+        <radialGradient id={`${id}-leaf`} cx="35%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#9DECC0" />
+          <stop offset="45%" stopColor="#22C55E" />
+          <stop offset="100%" stopColor="#0F5D2F" />
+        </radialGradient>
+        <radialGradient id={`${id}-leaf-shine`} cx="35%" cy="25%" r="55%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.65" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id={`${id}-ribbon`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#22C55E" />
+          <stop offset="100%" stopColor="#0F5D2F" />
+        </linearGradient>
+      </defs>
+
+      {/* Ribbon tails behind the disc */}
+      <path d="M22 36 L18 60 L25 54 L28 56 L26 36 Z" fill={`url(#${id}-ribbon)`} />
+      <path d="M22 36 L18 60 L25 54" stroke="white" strokeOpacity="0.25" strokeWidth="0.7" fill="none" />
+      <path d="M42 36 L46 60 L39 54 L36 56 L38 36 Z" fill={`url(#${id}-ribbon)`} />
+      <path d="M42 36 L46 60 L39 54" stroke="white" strokeOpacity="0.25" strokeWidth="0.7" fill="none" />
+
+      {/* Outer rim — slightly darker gold halo */}
+      <circle cx="32" cy="28" r="22" fill={`url(#${id}-rim)`} />
+      {/* Inner disc */}
+      <circle cx="32" cy="28" r="19" fill={`url(#${id}-disc)`} />
+      {/* Top-left specular */}
+      <circle cx="32" cy="28" r="19" fill={`url(#${id}-disc-shine)`} />
+      {/* Subtle pleat marks around the rim */}
+      {Array.from({ length: 12 }).map((_, i) => {
+        const a = (i * Math.PI) / 6;
+        const x1 = 32 + Math.cos(a) * 19.2;
+        const y1 = 28 + Math.sin(a) * 19.2;
+        const x2 = 32 + Math.cos(a) * 21.6;
+        const y2 = 28 + Math.sin(a) * 21.6;
+        return (
+          <line
+            key={i}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="#92400E"
+            strokeOpacity="0.35"
+            strokeWidth="0.6"
+            strokeLinecap="round"
+          />
+        );
+      })}
+
+      {/* Shamrock — three rounded heart-shaped leaves + stem */}
+      {/* Top leaf */}
+      <path
+        d="M32 14 Q26.5 11 25 16 Q24 21 30 22 Q33 22.4 32 19.5 Q34 22.4 35 21 Q41 21 39 16 Q37.5 11 32 14 Z"
+        fill={`url(#${id}-leaf)`}
+      />
+      {/* Bottom-left leaf */}
+      <path
+        d="M22 26 Q18.5 24 17.5 28.5 Q17.5 33 23 33.5 Q26 33.5 25.5 30 Q27 33 28.5 32 Q31 28.5 28.5 25.5 Q25.5 23.5 22 26 Z"
+        fill={`url(#${id}-leaf)`}
+      />
+      {/* Bottom-right leaf */}
+      <path
+        d="M42 26 Q45.5 24 46.5 28.5 Q46.5 33 41 33.5 Q38 33.5 38.5 30 Q37 33 35.5 32 Q33 28.5 35.5 25.5 Q38.5 23.5 42 26 Z"
+        fill={`url(#${id}-leaf)`}
+      />
+      {/* Soft inner highlights on each leaf */}
+      <path d="M32 14 Q26.5 11 25 16 Q24 21 30 22 Q33 22.4 32 19.5 Q34 22.4 35 21 Q41 21 39 16 Q37.5 11 32 14 Z" fill={`url(#${id}-leaf-shine)`} />
+      <path d="M22 26 Q18.5 24 17.5 28.5 Q17.5 33 23 33.5 Q26 33.5 25.5 30 Q27 33 28.5 32 Q31 28.5 28.5 25.5 Q25.5 23.5 22 26 Z" fill={`url(#${id}-leaf-shine)`} />
+      <path d="M42 26 Q45.5 24 46.5 28.5 Q46.5 33 41 33.5 Q38 33.5 38.5 30 Q37 33 35.5 32 Q33 28.5 35.5 25.5 Q38.5 23.5 42 26 Z" fill={`url(#${id}-leaf-shine)`} />
+      {/* Center node */}
+      <circle cx="32" cy="26" r="2.2" fill="#0F5D2F" />
+      {/* Stem */}
+      <path d="M32 28 Q33.5 34 31 40" stroke="#0F5D2F" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+}
+
+/* ===================== LUCK CLOVER (PNG-based, full 3D render) ===================== */
+export function LuckClover3D({ size = 64, className }: Icon3DProps) {
+  return (
+    <img
+      src="/brand/luck-clover.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 6px 12px rgba(15,93,47,0.3))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }

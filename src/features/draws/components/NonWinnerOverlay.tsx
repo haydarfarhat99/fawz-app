@@ -1,5 +1,5 @@
 import { ArrowRight, UserPlus, Sparkles } from 'lucide-react';
-import { Clover3D } from '@shared/components/Icon3D';
+import { LuckClover3D } from '@shared/components/Icon3D';
 import { useTranslation } from 'react-i18next';
 import { useUIStore } from '@stores/ui.store';
 import { Button } from '@shared/components/Button';
@@ -32,7 +32,7 @@ export function NonWinnerOverlay({ remainingEntries, onInvite, onViewResults }: 
             className="mx-auto inline-block"
             style={{ animation: 'bounce-soft 2s ease-in-out infinite' }}
           >
-            <Clover3D size={120} />
+            <LuckClover3D size={120} />
           </div>
         </div>
 

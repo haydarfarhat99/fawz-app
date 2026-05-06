@@ -349,6 +349,18 @@
       "description": "Sign-in alerts, account changes, compliance."
     }
   },
+  "more": {
+    "title": "More",
+    "subtitle": "Notifications, referrals, and account settings.",
+    "preferences": "Preferences",
+    "preferencesDesc": "Notification, language, and app settings",
+    "notificationsDesc": "Wins, draws, and rewards",
+    "referralDesc": "Invite friends, earn extra entries",
+    "prizesDesc": "Track every prize you've won",
+    "drawsDesc": "Past draws and live broadcasts",
+    "profileDesc": "Stats, badges, and account info",
+    "supportDesc": "Get help or file a dispute"
+  },
   "profile": {
     "title": "Profile",
     "subtitle": "Your stats, badges, and account preferences.",

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell3D, Globe3D, Beaker3D } from '@shared/components/Icon3D';
+import { Bell3D, Globe3D } from '@shared/components/Icon3D';
 import { Avatar } from '@shared/components/Avatar';
 import { useAuth } from '@shared/hooks/useAuth';
 import { useUIStore } from '@stores/ui.store';
@@ -24,8 +24,10 @@ const ROUTE_META: Array<{ match: (p: string) => boolean; meta: PageMeta }> = [
   { match: (p) => p.startsWith('/referral'),                 meta: { titleKey: 'referral.title',      descriptionKey: 'referral.subtitle' } },
   { match: (p) => p.startsWith('/prizes'),                   meta: { titleKey: 'prizes.title',        descriptionKey: 'prizes.subtitle' } },
   { match: (p) => p.startsWith('/notifications/preferences'), meta: { titleKey: 'notifPrefs.title',   descriptionKey: 'notifPrefs.subtitle' } },
+  { match: (p) => p.startsWith('/settings/notifications'),   meta: { titleKey: 'notifPrefs.title',    descriptionKey: 'notifPrefs.subtitle' } },
   { match: (p) => p.startsWith('/notifications'),            meta: { titleKey: 'notifications.title' } },
   { match: (p) => p.startsWith('/profile'),                  meta: { titleKey: 'profile.title',       descriptionKey: 'profile.subtitle' } },
+  { match: (p) => p.startsWith('/more'),                     meta: { titleKey: 'more.title',          descriptionKey: 'more.subtitle' } },
   { match: (p) => p.startsWith('/support/disputes/new'),     meta: { titleKey: 'disputes.submitTitle',  descriptionKey: 'disputes.submitSubtitle' } },
   { match: (p) => p.startsWith('/support/disputes'),         meta: { titleKey: 'disputes.historyTitle', descriptionKey: 'disputes.historySubtitle' } },
 ];
@@ -41,8 +43,6 @@ export function MobileTopActions() {
   const { user } = useAuth();
   const lang = useUIStore((s) => s.language);
   const setStoreLanguage = useUIStore((s) => s.setLanguage);
-  const dataSource = useUIStore((s) => s.dataSource);
-  const toggleDataSource = useUIStore((s) => s.toggleDataSource);
   const { data: unreadCount = 0 } = useUnreadCount();
 
   const isHome = pathname === '/' || pathname === '/home';
@@ -65,24 +65,6 @@ export function MobileTopActions() {
 
         <div className="relative flex items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleDataSource}
-              aria-label={t('common.dataSource.label')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <Beaker3D size={42} />
-              <span
-                className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[8px] font-black ring-2 ring-teal-700 tabular-nums"
-                style={
-                  dataSource === 'real'
-                    ? { background: '#10b981', color: 'white' }
-                    : { background: '#FFC94D', color: '#1a1a1a' }
-                }
-              >
-                {dataSource === 'real' ? 'L' : 'M'}
-              </span>
-            </button>
             <button
               type="button"
               onClick={toggleLanguage}

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Tv, Sparkles, ArrowRight, Eye } from 'lucide-react';
-import { Trophy3D, Ticket3D, Calendar3D, Gift3D, Clover3D } from '@shared/components/Icon3D';
+import { Trophy3D, Ticket3D, Calendar3D, Gift3D, LuckClover3D } from '@shared/components/Icon3D';
 import { useNavigate } from 'react-router-dom';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
 import { useAuth } from '@shared/hooks/useAuth';
@@ -8,6 +8,7 @@ import { usePageTitle } from '@shared/hooks/usePageTitle';
 import { useCountdown } from '@shared/hooks/useCountdown';
 import { useUIStore } from '@stores/ui.store';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
+import { DEMO_STATS } from '@core/mocks/demoStats';
 
 const NEXT_DRAW = (() => {
   const d = new Date();
@@ -155,7 +156,7 @@ export default function HomePage() {
           <Ticket3D size={48} tone="teal" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.weeklyTickets')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(47, lang)}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.weeklyTicketsThisWeek, lang)}</div>
           </div>
         </button>
         <button
@@ -166,7 +167,7 @@ export default function HomePage() {
           <Calendar3D size={48} tone="teal" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.monthlyTickets')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(18, lang)}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.monthlyTicketsThisMonth, lang)}</div>
           </div>
         </button>
         <button
@@ -177,7 +178,7 @@ export default function HomePage() {
           <Gift3D size={48} tone="gold" />
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.totalWinnings')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(0, lang)}</div>
+            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(DEMO_STATS.lifetimeWinningsIqd, lang)}</div>
           </div>
         </button>
       </div>
@@ -264,7 +265,7 @@ function DemoSection({ type, jackpotPrize, navigate, t }: DemoSectionProps) {
           className="group flex items-center gap-3 rounded-xl p-3 text-start shadow-[0_8px_22px_-8px_rgba(0,198,167,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(0,198,167,0.7)]"
           style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
         >
-          <Clover3D size={40} />
+          <LuckClover3D size={40} />
           <div className="flex-1 min-w-0">
             <div className="text-xs font-black text-white">{t('home.demoLoseTitle')}</div>
             <div className="text-[10px] text-white/80">{t('home.demoLoseSubtitle')}</div>

@@ -26,6 +26,7 @@ const PrizesPage = lazy(() => import('@features/prizes/pages/PrizesPage'));
 const NotificationsPage = lazy(() => import('@features/notifications/pages/NotificationsPage'));
 const NotificationPreferencesPage = lazy(() => import('@features/notifications/pages/NotificationPreferencesPage'));
 const ProfilePage = lazy(() => import('@features/profile/pages/ProfilePage'));
+const MorePage = lazy(() => import('@features/more/pages/MorePage'));
 const DisputeSubmissionPage = lazy(() => import('@features/disputes/pages/DisputeSubmissionPage'));
 const DisputeHistoryPage = lazy(() => import('@features/disputes/pages/DisputeHistoryPage'));
 const MerchantHomePage = lazy(() => import('@features/merchant/pages/MerchantHomePage'));
@@ -93,6 +94,7 @@ export const router = createBrowserRouter([
           { path: '/notifications', element: <NotificationsPage /> },
           { path: '/settings/notifications', element: <NotificationPreferencesPage /> },
           { path: '/profile', element: <ProfilePage /> },
+          { path: '/more', element: <MorePage /> },
           { path: '/support/dispute', element: <DisputeSubmissionPage /> },
           { path: '/support/disputes', element: <DisputeHistoryPage /> },
           { path: '/merchant/home', element: <MerchantHomePage /> },

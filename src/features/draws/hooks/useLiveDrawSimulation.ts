@@ -8,6 +8,8 @@ import {
   playWinFanfare,
 } from '@core/utils/sound';
 import { drawKeys } from '../services/draw.service';
+import { notifKeys } from '@features/notifications/services/notification.service';
+import type { FawzNotification } from '@features/notifications/types/notification.types';
 import type { ConnectionState, DrawDigitEvent, WinnerTier } from '../types/draw.types';
 
 export type LivePhase = 'waiting' | 'broadcasting' | 'finalizing' | 'finalized';
@@ -226,6 +228,28 @@ export function useLiveDrawSimulation(opts: SimulationOptions = {}): LiveDrawSta
       // the just-updated session state instead of returning a stale win.
       qc.removeQueries({ queryKey: drawKeys.myResult('draw-143') });
       qc.removeQueries({ queryKey: drawKeys.detail('draw-143') });
+
+      if (isWinner && tierInfo && userNumber) {
+        const winNotif: FawzNotification = {
+          id: `live-win-${Date.now()}`,
+          type: 'prize_credited',
+          title: '',
+          body: '',
+          titleKey: 'notifications.items.prizeWin.title',
+          bodyKey: 'notifications.items.prizeWin.body',
+          i18nVars: {
+            amount: tierInfo.prize.toLocaleString('en-US'),
+            drawNumber: 143,
+          },
+          createdAt: new Date().toISOString(),
+          isRead: false,
+          deepLink: '/prizes',
+        };
+        qc.setQueryData<FawzNotification[]>(notifKeys.list(), (old) =>
+          old ? [winNotif, ...old] : [winNotif],
+        );
+        qc.setQueryData<number>(notifKeys.unreadCount(), (old) => (old ?? 0) + 1);
+      }
     }, cursor + finalizationMs);
 
     return () => {
