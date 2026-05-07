@@ -60,30 +60,29 @@ export function MobileTopActions() {
         className="relative overflow-hidden rounded-3xl px-5 py-5 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
         style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
       >
-        {/* Action row — left: language, right: bell + avatar in a single subtle pill */}
-        <div className="relative flex items-center justify-between gap-2 mb-5">
+        <div className="relative flex items-center justify-between mb-5">
           <button
             type="button"
             onClick={toggleLanguage}
             aria-label={t('common.language')}
-            className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+            className="relative inline-flex size-10 items-center justify-center transition-transform duration-150 active:scale-90"
           >
-            <Globe3D size={36} />
-            <span className="absolute -bottom-1 -end-1 inline-flex h-4 min-w-5 items-center justify-center rounded-full bg-gold-400 px-1 text-[9px] font-black text-ink-900 ring-2 ring-teal-700 tabular-nums">
+            <Globe3D size={32} />
+            <span className="absolute -bottom-0.5 -end-0.5 inline-flex h-4 min-w-5 items-center justify-center rounded-full bg-gold-400 px-1 text-[9px] font-black text-ink-900 tabular-nums shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
               {lang === 'en' ? 'AR' : 'EN'}
             </span>
           </button>
 
-          <div className="flex items-center gap-3 rounded-full bg-white/10 ring-1 ring-white/15 ps-2.5 pe-1.5 py-1.5 backdrop-blur-sm">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => navigate('/notifications')}
               aria-label={t('nav.notifications')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+              className="relative inline-flex size-10 items-center justify-center transition-transform duration-150 active:scale-90"
             >
-              <Bell3D size={28} />
+              <Bell3D size={32} />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -end-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[9px] font-black text-white px-1 ring-2 ring-teal-700 tabular-nums">
+                <span className="absolute -top-0.5 -end-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[9px] font-black text-white px-1 tabular-nums shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -92,7 +91,7 @@ export function MobileTopActions() {
               type="button"
               onClick={() => navigate('/profile')}
               aria-label={t('nav.profile')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+              className="inline-flex size-10 items-center justify-center transition-transform duration-150 active:scale-90"
             >
               <Avatar name={user?.fullName} src={user?.avatarUrl} size="md" />
             </button>
