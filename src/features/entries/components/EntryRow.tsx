@@ -65,26 +65,50 @@ export function EntryRow({ entry }: EntryRowProps) {
       <div
         className={cn(
           'flex size-11 md:size-12 shrink-0 items-center justify-center rounded-2xl icon-3d',
-          isWin ? 'bg-gradient-to-br from-gold-300 to-gold-500 text-ink-900' : config.bg,
+          isWin
+            ? 'bg-gradient-to-br from-gold-300 to-gold-500 text-ink-900'
+            : entry.source === 'challenge' ||
+                entry.source === 'transaction' ||
+                entry.source === 'referral'
+              ? 'bg-transparent'
+              : config.bg,
         )}
       >
-        {isWin ? <Trophy className="size-5" /> : <Icon className={cn('size-5', config.tone)} />}
+        {isWin ? (
+          <Trophy className="size-5" />
+        ) : entry.source === 'challenge' ? (
+          <img
+            src="/brand/challenge-3d.png"
+            alt=""
+            aria-hidden="true"
+            className="size-9 md:size-10 object-contain"
+            draggable={false}
+          />
+        ) : entry.source === 'transaction' ? (
+          <img
+            src="/brand/transaction-3d.png"
+            alt=""
+            aria-hidden="true"
+            className="size-9 md:size-10 object-contain"
+            draggable={false}
+          />
+        ) : entry.source === 'referral' ? (
+          <img
+            src="/brand/referral-3d.png"
+            alt=""
+            aria-hidden="true"
+            className="size-9 md:size-10 object-contain"
+            draggable={false}
+          />
+        ) : (
+          <Icon className={cn('size-5', config.tone)} />
+        )}
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5 flex-wrap">
           <span dir="ltr" className="font-mono text-sm md:text-base font-bold text-ink-900 tabular-nums">
             {formatFawzNumber(entry.fawzNumber)}
-          </span>
-          <span
-            className={cn(
-              'inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md',
-              entry.drawType === 'monthly'
-                ? 'text-gold-700 bg-gold-100'
-                : 'text-brand-700 bg-brand-100',
-            )}
-          >
-            {t(`entries.drawType.${entry.drawType}`)}
           </span>
           {isWin && (
             <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-success-700 bg-success-50 px-1.5 py-0.5 rounded-md">

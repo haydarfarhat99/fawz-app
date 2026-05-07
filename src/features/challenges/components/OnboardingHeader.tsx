@@ -16,9 +16,6 @@ export function OnboardingHeader({ progress }: OnboardingHeaderProps) {
 
   return (
     <Card variant="gradient" padding="lg" className="relative overflow-hidden mb-5">
-      <div className="absolute -top-12 -end-12 size-48 rounded-full bg-gold-300/40 blur-3xl" />
-      <div className="absolute -bottom-12 -start-12 size-48 rounded-full bg-brand-300/40 blur-3xl" />
-
       <div className="relative">
         <div className="flex items-center justify-between mb-3">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-700">

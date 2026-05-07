@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient, withFallback } from '@core/network/apiClient';
-import { generateFawzNumber } from '@core/utils/helpers';
-import { DEMO_STATS } from '@core/mocks/demoStats';
-import type { Prize, PrizeSummary } from '../types/prize.types';
+import { DEMO_STATS, DEMO_USER_WINS, type DemoUserWin } from '@core/mocks/demoStats';
+import type { Prize, PrizeSummary, PayoutEvent } from '../types/prize.types';
 
 export const prizeKeys = {
   all: ['prizes'] as const,
@@ -10,104 +9,42 @@ export const prizeKeys = {
   summary: () => [...prizeKeys.all, 'summary'] as const,
 };
 
-const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000).toISOString();
-const hoursAgo = (n: number) => new Date(Date.now() - n * 3_600_000).toISOString();
+function buildTimeline(win: DemoUserWin): PayoutEvent[] {
+  const events: PayoutEvent[] = [{ status: 'won', at: win.drawDate }];
+  if (win.payoutStatus === 'credited' && win.payoutAt) {
+    events.push({ status: 'pending', at: win.drawDate, note: 'Queued for payout' });
+    events.push({ status: 'credited', at: win.payoutAt, note: 'Credited to SuperQi wallet' });
+  } else if (win.payoutStatus === 'pending') {
+    events.push({ status: 'pending', at: win.drawDate, note: 'In payout queue · ETA <60s' });
+  } else if (win.payoutStatus === 'held') {
+    events.push({ status: 'pending', at: win.drawDate });
+    events.push({ status: 'held', at: win.drawDate, note: 'Compliance review (high-value)' });
+  } else if (win.payoutStatus === 'rejected') {
+    events.push({ status: 'held', at: win.drawDate });
+    events.push({ status: 'rejected', at: win.drawDate, note: 'Fraud review failed' });
+  }
+  return events;
+}
 
-const DUMMY_PRIZES: Prize[] = [
-  {
-    id: 'p1',
-    drawId: 'draw-142',
-    drawDate: daysAgo(7),
-    drawType: 'weekly',
-    tier: 'last_4',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 10_000,
-    payoutStatus: 'credited',
-    payoutAt: hoursAgo(7 * 24 - 0.05),
-    timeline: [
-      { status: 'won', at: daysAgo(7) },
-      { status: 'pending', at: daysAgo(7), note: 'Queued for payout' },
-      { status: 'credited', at: hoursAgo(7 * 24 - 0.05), note: 'Credited to SuperQi wallet' },
-    ],
-  },
-  {
-    id: 'p2',
-    drawId: 'draw-141',
-    drawDate: daysAgo(14),
-    drawType: 'monthly',
-    tier: 'last_6',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 250_000,
-    payoutStatus: 'credited',
-    payoutAt: daysAgo(14),
-    timeline: [
-      { status: 'won', at: daysAgo(14) },
-      { status: 'pending', at: daysAgo(14) },
-      { status: 'credited', at: daysAgo(14), note: 'Credited to SuperQi wallet' },
-    ],
-  },
-  {
-    id: 'p3',
-    drawId: 'draw-143',
-    drawDate: hoursAgo(2),
-    drawType: 'weekly',
-    tier: 'last_4',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 10_000,
-    payoutStatus: 'pending',
-    timeline: [
-      { status: 'won', at: hoursAgo(2) },
-      { status: 'pending', at: hoursAgo(2), note: 'In payout queue · ETA <60s' },
-    ],
-  },
-  {
-    id: 'p4',
-    drawId: 'draw-140',
-    drawDate: daysAgo(21),
-    drawType: 'weekly',
-    tier: 'last_8',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 5_000_000,
-    payoutStatus: 'held',
-    reviewReason: 'High-value prize requires identity verification',
-    timeline: [
-      { status: 'won', at: daysAgo(21) },
-      { status: 'pending', at: daysAgo(21) },
-      { status: 'held', at: daysAgo(21), note: 'Compliance review (high-value)' },
-    ],
-  },
-  {
-    id: 'p5',
-    drawId: 'draw-138',
-    drawDate: daysAgo(35),
-    drawType: 'weekly',
-    tier: 'last_4',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 10_000,
-    payoutStatus: 'credited',
-    payoutAt: daysAgo(35),
-    timeline: [
-      { status: 'won', at: daysAgo(35) },
-      { status: 'credited', at: daysAgo(35) },
-    ],
-  },
-  {
-    id: 'p6',
-    drawId: 'draw-130',
-    drawDate: daysAgo(70),
-    drawType: 'monthly',
-    tier: 'last_4',
-    fawzNumber: generateFawzNumber(),
-    prizeIqd: 10_000,
-    payoutStatus: 'rejected',
-    reviewReason: 'Account flagged for review · winnings forfeited',
-    timeline: [
-      { status: 'won', at: daysAgo(70) },
-      { status: 'held', at: daysAgo(70) },
-      { status: 'rejected', at: daysAgo(68), note: 'Fraud review failed' },
-    ],
-  },
-];
+/** Prize records derived from the canonical user-wins fixture. */
+const DUMMY_PRIZES: Prize[] = DEMO_USER_WINS.map((win) => ({
+  id: `p-${win.drawId}`,
+  drawId: win.drawId,
+  drawDate: win.drawDate,
+  drawType: win.drawType,
+  tier: win.tier,
+  fawzNumber: win.fawzNumber,
+  prizeIqd: win.prizeIqd,
+  payoutStatus: win.payoutStatus,
+  payoutAt: win.payoutAt,
+  reviewReason:
+    win.payoutStatus === 'held'
+      ? 'High-value prize requires identity verification'
+      : win.payoutStatus === 'rejected'
+        ? 'Account flagged for review · winnings forfeited'
+        : undefined,
+  timeline: buildTimeline(win),
+}));
 
 const DUMMY_SUMMARY: PrizeSummary = {
   lifetimeIqd: DEMO_STATS.lifetimeWinningsIqd,

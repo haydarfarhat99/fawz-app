@@ -1,6 +1,7 @@
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Trophy, Calendar, Hash, Share2, Sparkles, CheckCircle2, Tv } from 'lucide-react';
+import { Trophy, Hash, Share2, Sparkles, CheckCircle2, Tv } from 'lucide-react';
+import { Trophy3D, Ticket3D } from '@shared/components/Icon3D';
 import { EmptyState } from '@shared/components/EmptyState';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
 import { PageHeader } from '@shared/components/PageHeader';
@@ -156,9 +157,9 @@ export default function DrawDetailPage() {
 
       <Card padding="lg" className="mb-4">
         <div className="grid grid-cols-3 gap-3">
-          <div>
-            <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold-100 to-gold-300 text-gold-700 icon-3d mb-2">
-              <Trophy className="size-5" />
+          <div className="flex flex-col items-center text-center">
+            <div className="flex h-12 items-center justify-center mb-2">
+              <Trophy3D size={44} />
             </div>
             <div className="text-[10px] uppercase tracking-wider text-ink-500 font-bold">
               {t('draws.jackpotShort')}
@@ -167,9 +168,9 @@ export default function DrawDetailPage() {
               {formatCompactIQD(draw.jackpotIqd, lang)}
             </div>
           </div>
-          <div>
-            <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-brand-300 text-brand-700 icon-3d mb-2">
-              <Hash className="size-5" />
+          <div className="flex flex-col items-center text-center">
+            <div className="flex h-12 items-center justify-center mb-2">
+              <Ticket3D size={44} tone="teal" />
             </div>
             <div className="text-[10px] uppercase tracking-wider text-ink-500 font-bold">
               {t('draws.entries')}
@@ -178,9 +179,15 @@ export default function DrawDetailPage() {
               {formatNumber(draw.entryPoolSize, lang)}
             </div>
           </div>
-          <div>
-            <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-success-50 to-success-500/30 text-success-600 icon-3d mb-2">
-              <Calendar className="size-5" />
+          <div className="flex flex-col items-center text-center">
+            <div className="flex h-12 items-center justify-center mb-2">
+              <img
+                src="/brand/on-air.png"
+                alt=""
+                aria-hidden="true"
+                className="h-11 w-auto object-contain drop-shadow-[0_2px_6px_rgba(15,23,42,0.18)]"
+                draggable={false}
+              />
             </div>
             <div className="text-[10px] uppercase tracking-wider text-ink-500 font-bold">
               {t('draws.aired')}

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Bell, CheckCheck, Settings2 } from 'lucide-react';
@@ -28,6 +29,17 @@ export default function NotificationsPage() {
   const markRead = useMarkRead();
 
   const unreadCount = unreadQ.data ?? 0;
+
+  // Auto-clear the bell badge as soon as the user lands on the notifications
+  // page so the count stays consistent across mobile and web.
+  useEffect(() => {
+    if (unreadCount > 0 && !markAllRead.isPending) {
+      markAllRead.mutate();
+    }
+    // We only want this on first arrival; subsequent re-renders shouldn't
+    // re-fire the mutation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ScreenWrapper>

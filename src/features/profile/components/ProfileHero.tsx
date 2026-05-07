@@ -25,9 +25,6 @@ export function ProfileHero({ profile }: ProfileHeroProps) {
 
   return (
     <Card variant="gradient" padding="lg" className="relative overflow-hidden mb-5">
-      <div className="absolute -top-12 -end-12 size-56 rounded-full bg-brand-300/40 blur-3xl" />
-      <div className="absolute -bottom-12 -start-12 size-56 rounded-full bg-gold-300/30 blur-3xl" />
-
       <div className="relative">
         <div className="flex items-start gap-4 mb-5">
           <div className="relative">

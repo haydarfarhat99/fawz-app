@@ -18,9 +18,8 @@ export function EmptyState({ icon, title, subtitle, action, className }: EmptySt
         className,
       )}
     >
-      <div className="relative mb-5">
-        <div className="absolute inset-0 -z-10 blur-2xl opacity-50 bg-brand-300 rounded-full" />
-        <div className="flex size-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-50 to-brand-100 text-brand-600 icon-3d">
+      <div className="mb-5">
+        <div className="flex size-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-50 to-brand-100 text-brand-600">
           {icon ?? <Inbox className="size-9" />}
         </div>
       </div>

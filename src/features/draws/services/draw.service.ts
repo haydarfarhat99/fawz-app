@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient, withFallback } from '@core/network/apiClient';
 import { generateFawzNumber } from '@core/utils/helpers';
+import { findUserWin } from '@core/mocks/demoStats';
 import type { Draw, DrawWinner, MyDrawResult } from '../types/draw.types';
 
 export const drawKeys = {
@@ -153,16 +154,15 @@ function buildDummyMyResult(drawId: string): MyDrawResult {
   const draw = DUMMY_DRAWS.find((d) => d.id === drawId);
   if (!draw) throw new Error('DRAW_NOT_FOUND');
   const myEntries = Array.from({ length: 12 }, () => ({ fawzNumber: generateFawzNumber() }));
-  const winningNumber = draw.winningNumbers?.[0];
   const winners: DrawWinner[] = [];
   const matches: MyDrawResult['matches'] = [];
 
-  // For draw-143 (the just-completed one), reflect whatever scenario the user just watched live.
+  // For draw-143 (the just-completed one), the live simulation's sessionStorage
+  // overrides any fixture data — reflect what the user actually watched.
   if (drawId === 'draw-143') {
     const sessionScenario = readSessionScenario();
     const sessionWin = readSessionWin();
     if (sessionScenario === 'lose') {
-      // Explicit lose — no match, no win
       return { draw, myEntries, myWins: winners, matches };
     }
     if (sessionWin) {
@@ -184,30 +184,35 @@ function buildDummyMyResult(drawId: string): MyDrawResult {
       });
       return { draw, myEntries, myWins: winners, matches };
     }
-    // No prior simulation — default to a tasteful Last-4 example
-    if (winningNumber) {
-      const matched = myEntries[0].fawzNumber.slice(0, 6) + winningNumber.slice(-4);
-      myEntries[0] = { fawzNumber: matched };
-      winners.push({ id: 'win-' + drawId, drawId, userId: 'demo-user', fawzNumber: matched, tier: 'last_4', prizeIqd: 10_000, status: 'pending' });
-      matches.push({ fawzNumber: matched, numberIndex: 0, tier: 'last_4', prizeIqd: 10_000 });
-    }
+    // No prior simulation — show no match (user has not watched yet)
     return { draw, myEntries, myWins: winners, matches };
   }
 
-  // For older draws, keep the canned Last-4 example on draw-142 as before
-  if (drawId === 'draw-142' && winningNumber) {
-    const matched = myEntries[0].fawzNumber.slice(0, 6) + winningNumber.slice(-4);
-    myEntries[0] = { fawzNumber: matched };
+  // For all other draws, look up the canonical user-wins fixture so the
+  // result here matches what's shown on /draws/results, /prizes, and /entries.
+  const fixture = findUserWin(drawId);
+  if (fixture) {
+    myEntries[0] = { fawzNumber: fixture.fawzNumber };
+    const status: DrawWinner['status'] =
+      fixture.payoutStatus === 'credited' ? 'credited' :
+      fixture.payoutStatus === 'rejected' ? 'rejected' :
+      fixture.payoutStatus === 'held' ? 'held' :
+      'pending';
     winners.push({
-      id: 'win-' + drawId,
+      id: fixture.id,
       drawId,
       userId: 'demo-user',
-      fawzNumber: matched,
-      tier: 'last_4',
-      prizeIqd: 10_000,
-      status: 'credited',
+      fawzNumber: fixture.fawzNumber,
+      tier: fixture.tier,
+      prizeIqd: fixture.prizeIqd,
+      status,
     });
-    matches.push({ fawzNumber: matched, numberIndex: 0, tier: 'last_4', prizeIqd: 10_000 });
+    matches.push({
+      fawzNumber: fixture.fawzNumber,
+      numberIndex: fixture.matchedNumberIndex,
+      tier: fixture.tier,
+      prizeIqd: fixture.prizeIqd,
+    });
   }
 
   return { draw, myEntries, myWins: winners, matches };

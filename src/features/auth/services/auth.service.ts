@@ -1,7 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { apiClient } from '@core/network/apiClient';
 import { sleep } from '@core/utils/helpers';
-import { getDataSource } from '@stores/ui.store';
 import type {
   AuthSuccessResponse,
   CodeType,
@@ -12,7 +10,11 @@ import type {
   VerifyEmailRequest,
 } from '../types/auth.types';
 
-const APP_ID = 'fawz';
+/**
+ * Auth flow runs entirely against local fixtures so login is instant
+ * regardless of backend availability. Real-API integration can be re-added
+ * later via the data-source toggle once the sandbox is ready.
+ */
 
 function buildMockSession(email: string, firstName = 'Demo', lastName = 'Player'): AuthSuccessResponse {
   return {
@@ -31,15 +33,8 @@ function buildMockSession(email: string, firstName = 'Demo', lastName = 'Player'
 export function useSignup() {
   return useMutation({
     mutationFn: async (input: Omit<SignupRequest, 'app_id'>): Promise<SignupResponse> => {
-      if (getDataSource() === 'mock') {
-        await sleep(500);
-        return { user_id: 'mock-user', message: 'User created (mock)' };
-      }
-      const { data } = await apiClient.post<SignupResponse>(
-        '/fawz_user_management/user/sign_up',
-        { ...input, app_id: APP_ID },
-      );
-      return data;
+      await sleep(300);
+      return { user_id: 'mock-' + input.email, message: 'User created (mock)' };
     },
   });
 }
@@ -47,15 +42,8 @@ export function useSignup() {
 export function useLogin() {
   return useMutation({
     mutationFn: async (input: LoginRequest): Promise<AuthSuccessResponse> => {
-      if (getDataSource() === 'mock') {
-        await sleep(500);
-        return buildMockSession(input.email);
-      }
-      const { data } = await apiClient.patch<AuthSuccessResponse>(
-        '/fawz_user_management/user/login_user',
-        input,
-      );
-      return data;
+      await sleep(250);
+      return buildMockSession(input.email);
     },
   });
 }
@@ -63,15 +51,8 @@ export function useLogin() {
 export function useVerifyEmail() {
   return useMutation({
     mutationFn: async (input: VerifyEmailRequest): Promise<AuthSuccessResponse> => {
-      if (getDataSource() === 'mock') {
-        await sleep(400);
-        return buildMockSession(input.email);
-      }
-      const { data } = await apiClient.patch<AuthSuccessResponse>(
-        '/fawz_user_management/user/verify_user_email',
-        input,
-      );
-      return data;
+      await sleep(250);
+      return buildMockSession(input.email);
     },
   });
 }
@@ -79,12 +60,8 @@ export function useVerifyEmail() {
 export function useRequestCode() {
   return useMutation({
     mutationFn: async (input: { email: string; code_type: CodeType }) => {
-      if (getDataSource() === 'mock') {
-        await sleep(400);
-        return { message: 'Code sent (mock)' };
-      }
-      await apiClient.post('/fawz_user_management/user/request_code', input);
-      return { message: 'Code sent' };
+      await sleep(250);
+      return { message: `Code sent to ${input.email} (mock)` };
     },
   });
 }
@@ -92,12 +69,8 @@ export function useRequestCode() {
 export function useForgotPassword() {
   return useMutation({
     mutationFn: async (email: string) => {
-      if (getDataSource() === 'mock') {
-        await sleep(400);
-        return { message: 'Reset code sent (mock)' };
-      }
-      await apiClient.post('/fawz_user_management/user/forgot_password', { email });
-      return { message: 'Reset code sent' };
+      await sleep(250);
+      return { message: `Reset code sent to ${email} (mock)` };
     },
   });
 }
@@ -105,15 +78,8 @@ export function useForgotPassword() {
 export function useResetPassword() {
   return useMutation({
     mutationFn: async (input: ResetPasswordRequest): Promise<AuthSuccessResponse> => {
-      if (getDataSource() === 'mock') {
-        await sleep(500);
-        return buildMockSession(input.email);
-      }
-      const { data } = await apiClient.patch<AuthSuccessResponse>(
-        '/fawz_user_management/user/reset_password_by_user',
-        input,
-      );
-      return data;
+      await sleep(300);
+      return buildMockSession(input.email);
     },
   });
 }

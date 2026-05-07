@@ -23,7 +23,7 @@ export const useUIStore = create<UIState>()(
     (set) => ({
       language: 'en',
       sidebarCollapsed: false,
-      dataSource: 'real',
+      dataSource: 'mock',
       mobileSidebarOpen: false,
       setLanguage: (language) => {
         set({ language });

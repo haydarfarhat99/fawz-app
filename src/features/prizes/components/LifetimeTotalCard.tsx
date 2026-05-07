@@ -41,8 +41,7 @@ export function LifetimeTotalCard({ summary }: LifetimeTotalCardProps) {
 
   return (
     <Card variant="gold" padding="lg" className="relative overflow-hidden mb-5">
-      <div className="absolute -top-12 -end-12 size-56 rounded-full bg-gold-300/50 blur-3xl" />
-      <div className="absolute -bottom-12 -start-12 size-56 rounded-full bg-brand-300/30 blur-3xl" />
+      <div className="absolute -top-10 -end-10 size-44 rounded-full bg-gold-300/40 blur-3xl" />
 
       <div className="relative">
         <div className="flex items-start justify-between mb-3">

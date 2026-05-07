@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { MediaConsentModal } from '@features/onboarding/components/MediaConsentModal';
+import { ShariaDisclosureModal } from '@features/onboarding/components/ShariaDisclosureModal';
 import {
   Bell,
   Globe,
@@ -37,6 +38,7 @@ export default function ProfilePage() {
   const language = useUIStore((s) => s.language);
   const setStoreLanguage = useUIStore((s) => s.setLanguage);
   const [consentOpen, setConsentOpen] = useState(false);
+  const [shariaOpen, setShariaOpen] = useState(false);
   usePageTitle(t('profile.title'));
 
   const { data: profile, isLoading, isError, refetch } = useProfile();
@@ -170,7 +172,7 @@ export default function ProfilePage() {
           iconTone="from-ink-700 to-ink-900"
           label={t('profile.settings.terms')}
           description={t('profile.settings.termsDesc')}
-          onClick={() => navigate('/profile')}
+          onClick={() => setShariaOpen(true)}
           last
         />
       </Card>
@@ -203,6 +205,12 @@ export default function ProfilePage() {
           setConsentOpen(false);
           toast.success(t('notifPrefs.saved'));
         }}
+      />
+
+      <ShariaDisclosureModal
+        open={shariaOpen}
+        onAccept={() => setShariaOpen(false)}
+        onDismiss={() => setShariaOpen(false)}
       />
 
       <p className="mt-6 text-center text-xs text-ink-400">

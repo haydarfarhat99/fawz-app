@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { BottomTabBar } from './BottomTabBar';
@@ -15,6 +15,13 @@ export function AppLayout() {
   const closeMobileSidebar = useUIStore((s) => s.closeMobileSidebar);
   const openMobileSidebar = useUIStore((s) => s.openMobileSidebar);
   const [shariaOpen, setShariaOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // Reset scroll position to the top whenever the route changes so users
+  // never land mid-page after navigating from a tile or link.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
 
   useEffect(() => {
     const accepted = localStorage.getItem(SHARIA_KEY) === 'true';

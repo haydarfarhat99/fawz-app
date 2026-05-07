@@ -24,9 +24,8 @@ export function ErrorState({
     <div
       className={cn('flex flex-col items-center justify-center text-center px-6 py-14', className)}
     >
-      <div className="relative mb-5">
-        <div className="absolute inset-0 -z-10 blur-2xl opacity-50 bg-danger-500/30 rounded-full" />
-        <div className="flex size-20 items-center justify-center rounded-3xl bg-gradient-to-br from-danger-50 to-danger-500/10 text-danger-600 icon-3d">
+      <div className="mb-5">
+        <div className="flex size-20 items-center justify-center rounded-3xl bg-gradient-to-br from-danger-50 to-danger-500/10 text-danger-600">
           {icon ?? <AlertTriangle className="size-9" />}
         </div>
       </div>

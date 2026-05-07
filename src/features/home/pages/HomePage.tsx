@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tv, Sparkles, ArrowRight, Eye } from 'lucide-react';
+import { Sparkles, ArrowRight, Eye, ChevronDown } from 'lucide-react';
 import { Trophy3D, Ticket3D, Calendar3D, Gift3D, LuckClover3D } from '@shared/components/Icon3D';
 import { useNavigate } from 'react-router-dom';
 import { ScreenWrapper } from '@shared/components/ScreenWrapper';
@@ -22,6 +23,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const lang = useUIStore((s) => s.language);
+  const [demoOpen, setDemoOpen] = useState(false);
   usePageTitle(t('nav.home'));
   const countdown = useCountdown(NEXT_DRAW);
 
@@ -31,13 +33,8 @@ export default function HomePage() {
         className="hidden lg:block relative overflow-hidden rounded-3xl mb-6 px-8 py-7 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
         style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
       >
-        <div className="absolute -top-16 -end-16 size-56 rounded-full bg-fawzgold-300/25 blur-3xl" />
-        <div className="absolute -bottom-16 -start-16 size-56 rounded-full bg-teal-300/30 blur-3xl" />
-
         <div className="relative flex items-center gap-5">
           <div className="relative shrink-0">
-            <div className="absolute inset-0 -z-10 blur-3xl bg-fawzgold-400/35 rounded-full scale-125" />
-            <div className="absolute inset-0 -z-10 blur-xl bg-teal-400/30 rounded-2xl scale-110" />
             <img
               src="/brand/fawz-mark.png"
               alt="FAWZ"
@@ -60,9 +57,6 @@ export default function HomePage() {
         className="relative overflow-hidden rounded-3xl mb-6 p-6 md:p-8 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
         style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
       >
-        <div className="absolute -top-16 -end-12 size-64 rounded-full bg-fawzgold-300/30 blur-3xl" />
-        <div className="absolute -bottom-16 -start-12 size-56 rounded-full bg-teal-300/25 blur-3xl" />
-
         <div className="relative grid md:grid-cols-2 gap-6 items-center">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] mb-3 bg-fawzgold-400/20 text-fawzgold-200 ring-1 ring-fawzgold-300/40">
@@ -71,7 +65,7 @@ export default function HomePage() {
             </span>
             <h2 className="text-4xl md:text-5xl font-black mb-2 tracking-tight">
               <span
-                className="bg-clip-text text-transparent drop-shadow-[0_4px_24px_rgba(255,201,77,0.5)]"
+                className="bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(255,201,77,0.18)]"
                 style={{ backgroundImage: 'linear-gradient(180deg, #FFE7A3 0%, #FFC94D 60%, #F2B324 100%)' }}
               >
                 {formatCompactIQD(50_000_000, lang)}
@@ -96,7 +90,7 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => navigate('/draws/live')}
-              className="group relative mt-6 inline-flex items-center gap-2 rounded-2xl px-6 h-12 font-black text-ink-900 shadow-[0_12px_32px_-8px_rgba(255,201,77,0.55)] transition-all duration-200 hover:-translate-y-0.5"
+              className="group relative mt-6 inline-flex items-center gap-2 rounded-2xl px-6 h-12 font-black text-ink-900 shadow-[0_4px_12px_-4px_rgba(255,201,77,0.25)] transition-all duration-200 hover:-translate-y-0.5"
               style={{ background: 'linear-gradient(135deg, #FFE7A3 0%, #FFC94D 50%, #F2B324 100%)' }}
             >
               <Sparkles className="size-4" />
@@ -105,8 +99,7 @@ export default function HomePage() {
             </button>
           </div>
           <div className="relative h-48 md:h-56 flex items-center justify-center">
-            <div className="absolute size-44 md:size-52 rounded-full bg-fawzgold-300/40 blur-3xl" />
-            <div className="absolute size-32 md:size-40 rounded-full bg-fawzgold-200/40 blur-xl" />
+            <div className="absolute size-40 md:size-48 rounded-full bg-fawzgold-300/30 blur-3xl" />
             <div className="relative animate-float">
               <Trophy3D size={170} />
             </div>
@@ -114,72 +107,76 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-3xl mb-6 p-5 md:p-6 bg-mint-50 border border-teal-100 shadow-[0_8px_30px_-12px_rgba(0,198,167,0.25)]">
-        <div className="absolute -top-8 -end-8 size-32 rounded-full bg-teal-300/30 blur-3xl" />
-        <div className="absolute -bottom-8 -start-8 size-32 rounded-full bg-fawzgold-200/40 blur-3xl" />
-
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 rounded-full bg-teal-600 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em]">
-              <Eye className="size-3" />
-              {t('home.demoBadge')}
-            </span>
-            <span className="text-xs text-teal-800 font-medium">{t('home.demoSubtitle')}</span>
+      <div className="relative overflow-hidden rounded-3xl mb-6 bg-mint-50 border border-teal-100">
+        <button
+          type="button"
+          onClick={() => setDemoOpen((v) => !v)}
+          aria-expanded={demoOpen}
+          className="w-full text-start p-5 md:p-6 flex items-start gap-3 hover:bg-mint-100/50 transition-colors"
+        >
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1 rounded-full bg-teal-600 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em]">
+                <Eye className="size-3" />
+                {t('home.demoBadge')}
+              </span>
+              <span className="text-xs text-teal-800 font-medium">{t('home.demoSubtitle')}</span>
+            </div>
+            <h3 className="text-lg md:text-xl font-black text-teal-900 mb-1">
+              {t('home.demoTitle')}
+            </h3>
+            <p className="text-sm text-teal-800/80 max-w-md">{t('home.demoDescription')}</p>
           </div>
-          <h3 className="text-lg md:text-xl font-black text-teal-900 mb-1">
-            {t('home.demoTitle')}
-          </h3>
-          <p className="text-sm text-teal-800/80 mb-4 max-w-md">{t('home.demoDescription')}</p>
+          <span
+            className="shrink-0 mt-1 flex size-8 items-center justify-center rounded-full bg-teal-600 text-white shadow-sm transition-transform duration-300"
+            style={{ transform: demoOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          >
+            <ChevronDown className="size-4" />
+          </span>
+        </button>
 
-          <DemoSection
-            type="weekly"
-            jackpotPrize="50M"
-            navigate={navigate}
-            t={t}
-          />
-          <div className="h-3" />
-          <DemoSection
-            type="monthly"
-            jackpotPrize="250M"
-            navigate={navigate}
-            t={t}
-          />
-        </div>
+        {demoOpen && (
+          <div className="px-5 md:px-6 pb-5 md:pb-6 animate-fade-in">
+            <DemoSection type="weekly" jackpotPrize="50M" navigate={navigate} t={t} />
+            <div className="h-3" />
+            <DemoSection type="monthly" jackpotPrize="250M" navigate={navigate} t={t} />
+          </div>
+        )}
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-2.5 md:gap-4 mb-6">
         <button
           type="button"
           onClick={() => navigate('/entries?filter=weekly')}
-          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+          className="group flex flex-col items-center text-center gap-1 rounded-2xl bg-white border border-teal-100 p-3 hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Ticket3D size={48} tone="teal" />
-          <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.weeklyTickets')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.weeklyTicketsThisWeek, lang)}</div>
+          <div className="flex h-10 items-center justify-center">
+            <Ticket3D size={36} tone="teal" />
           </div>
+          <div className="text-[9px] uppercase tracking-wider text-teal-700 font-bold leading-tight">{t('home.weeklyTickets')}</div>
+          <div className="text-lg md:text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.weeklyTicketsThisWeek, lang)}</div>
         </button>
         <button
           type="button"
           onClick={() => navigate('/entries?filter=monthly')}
-          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+          className="group flex flex-col items-center text-center gap-1 rounded-2xl bg-white border border-teal-100 p-3 hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Calendar3D size={48} tone="teal" />
-          <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.monthlyTickets')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.monthlyTicketsThisMonth, lang)}</div>
+          <div className="flex h-10 items-center justify-center">
+            <Calendar3D size={36} tone="teal" />
           </div>
+          <div className="text-[9px] uppercase tracking-wider text-teal-700 font-bold leading-tight">{t('home.monthlyTickets')}</div>
+          <div className="text-lg md:text-2xl font-black text-teal-900 tabular-nums">{formatNumber(DEMO_STATS.monthlyTicketsThisMonth, lang)}</div>
         </button>
         <button
           type="button"
           onClick={() => navigate('/prizes')}
-          className="group flex items-center gap-3 rounded-2xl bg-white border border-teal-100 p-4 text-start hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
+          className="group flex flex-col items-center text-center gap-1 rounded-2xl bg-white border border-teal-100 p-3 hover:border-teal-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-12px_rgba(0,198,167,0.35)] transition-all"
         >
-          <Gift3D size={48} tone="gold" />
-          <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-wider text-teal-700 font-bold">{t('home.totalWinnings')}</div>
-            <div className="text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(DEMO_STATS.lifetimeWinningsIqd, lang)}</div>
+          <div className="flex h-10 items-center justify-center">
+            <Gift3D size={36} tone="gold" />
           </div>
+          <div className="text-[9px] uppercase tracking-wider text-teal-700 font-bold leading-tight">{t('home.totalWinnings')}</div>
+          <div className="text-base md:text-2xl font-black text-teal-900 tabular-nums">{formatCompactIQD(DEMO_STATS.lifetimeWinningsIqd, lang)}</div>
         </button>
       </div>
 
@@ -195,12 +192,13 @@ export default function HomePage() {
           </button>
         </div>
         <div className="flex items-center gap-4">
-          <div
-            className="flex size-14 items-center justify-center rounded-2xl text-white shadow-[0_8px_20px_-8px_rgba(0,198,167,0.6)]"
-            style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 100%)' }}
-          >
-            <Tv className="size-6" />
-          </div>
+          <img
+            src="/brand/on-air.png"
+            alt=""
+            aria-hidden="true"
+            className="size-14 shrink-0 object-contain drop-shadow-[0_4px_10px_rgba(15,23,42,0.18)]"
+            draggable={false}
+          />
           <div className="flex-1 min-w-0">
             <p className="font-bold text-teal-900">{t('home.latestDrawTitle', { number: 142 })}</p>
             <p className="text-sm text-teal-800/70">{t('home.latestDrawSubtitle')}</p>

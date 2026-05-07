@@ -416,72 +416,45 @@ export function Shield3D({ size = 64, className }: Icon3DProps) {
 
 /* =============================== BELL =============================== */
 export function Bell3D({ size = 64, className }: Icon3DProps) {
-  const id = useId().replace(/[:]/g, '_');
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-bell`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FFE7A3" />
-          <stop offset="40%" stopColor="#FFC94D" />
-          <stop offset="80%" stopColor="#F2B324" />
-          <stop offset="100%" stopColor="#92400E" />
-        </linearGradient>
-        <linearGradient id={`${id}-bell-shine`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="white" stopOpacity="0.65" />
-          <stop offset="55%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-        <radialGradient id={`${id}-clapper`} cx="50%" cy="35%" r="60%">
-          <stop offset="0%" stopColor="#FEF08A" />
-          <stop offset="100%" stopColor="#B45309" />
-        </radialGradient>
-      </defs>
-      {/* Bell body */}
-      <path
-        d="M32 8 Q44 8 47 22 L48 38 Q48 42 52 44 L12 44 Q16 42 16 38 L17 22 Q20 8 32 8 Z"
-        fill={`url(#${id}-bell)`}
-      />
-      <path
-        d="M32 8 Q44 8 47 22 L48 38 Q48 42 52 44 L12 44 Q16 42 16 38 L17 22 Q20 8 32 8 Z"
-        fill={`url(#${id}-bell-shine)`}
-      />
-      {/* Top stud */}
-      <circle cx="32" cy="7" r="3" fill={`url(#${id}-clapper)`} />
-      {/* Clapper / bottom ball */}
-      <ellipse cx="32" cy="50" rx="6" ry="5" fill={`url(#${id}-clapper)`} />
-      {/* Highlight stripe */}
-      <path d="M22 14 Q26 22 24 36" stroke="white" strokeOpacity="0.45" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-    </svg>
+    <img
+      src="/brand/bell-3d.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 4px 10px rgba(15,23,42,0.18))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }
 
 /* =============================== GLOBE / LANGUAGE =============================== */
 export function Globe3D({ size = 64, className }: Icon3DProps) {
-  const id = useId().replace(/[:]/g, '_');
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <radialGradient id={`${id}-globe`} cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stopColor="#5EE5C2" />
-          <stop offset="45%" stopColor="#00C6A7" />
-          <stop offset="85%" stopColor="#00766A" />
-          <stop offset="100%" stopColor="#00312E" />
-        </radialGradient>
-        <radialGradient id={`${id}-globe-shine`} cx="30%" cy="25%" r="40%">
-          <stop offset="0%" stopColor="white" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <circle cx="32" cy="32" r="24" fill={`url(#${id}-globe)`} />
-      <circle cx="32" cy="32" r="24" fill={`url(#${id}-globe-shine)`} />
-      {/* Latitudes */}
-      <ellipse cx="32" cy="32" rx="24" ry="9" fill="none" stroke="white" strokeOpacity="0.45" strokeWidth="1.2" />
-      <ellipse cx="32" cy="32" rx="20" ry="22" fill="none" stroke="white" strokeOpacity="0.35" strokeWidth="1" />
-      {/* Meridian */}
-      <line x1="32" y1="8" x2="32" y2="56" stroke="white" strokeOpacity="0.45" strokeWidth="1.2" />
-      {/* Continent blobs */}
-      <path d="M18 26 Q22 22 28 24 Q30 30 24 32 Q20 32 18 26 Z" fill="#FFE7A3" opacity="0.85" />
-      <path d="M38 36 Q44 36 46 40 Q44 44 38 42 Z" fill="#FFE7A3" opacity="0.85" />
-    </svg>
+    <img
+      src="/brand/language-3d.png"
+      alt=""
+      aria-hidden="true"
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 4px 10px rgba(15,23,42,0.18))',
+        userSelect: 'none',
+      }}
+      draggable={false}
+    />
   );
 }
 

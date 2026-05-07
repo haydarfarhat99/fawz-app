@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Tv, Calendar, Trophy, ArrowRight, Sparkles } from 'lucide-react';
@@ -14,31 +13,12 @@ import { usePageTitle } from '@shared/hooks/usePageTitle';
 import { useUIStore } from '@stores/ui.store';
 import { formatCompactIQD, formatFawzNumber, formatNumber } from '@core/utils/formatters';
 import { cn } from '@core/utils/cn';
+import { findUserWin } from '@core/mocks/demoStats';
 import { useDrawList } from '../services/draw.service';
 
-interface RecentWin {
-  drawType: 'weekly' | 'monthly';
+interface DrawWinView {
   fawzNumber: string;
   prizeIqd: number;
-  tier: string;
-}
-
-function readRecentWin(): RecentWin | null {
-  try {
-    const drawType = sessionStorage.getItem('fawz.lastDraw.drawType') as 'weekly' | 'monthly' | null;
-    const raw = sessionStorage.getItem('fawz.lastDraw.win');
-    if (!drawType || !raw) return null;
-    const parsed = JSON.parse(raw) as { fawzNumber: string; prize: number; tier: string };
-    if (!parsed?.fawzNumber) return null;
-    return {
-      drawType,
-      fawzNumber: parsed.fawzNumber,
-      prizeIqd: parsed.prize,
-      tier: parsed.tier,
-    };
-  } catch {
-    return null;
-  }
 }
 
 export default function DrawResultsPage() {
@@ -48,13 +28,13 @@ export default function DrawResultsPage() {
   const { data: draws, isLoading, isError, refetch } = useDrawList();
   usePageTitle(t('draws.resultsTitle'));
 
-  const [recentWin] = useState<RecentWin | null>(() => readRecentWin());
-
-  const wonDrawId = useMemo(() => {
-    if (!recentWin || !draws) return null;
-    const match = draws.find((d) => d.type === recentWin.drawType);
-    return match?.id ?? null;
-  }, [recentWin, draws]);
+  // Win highlight is fixture-driven only — no sessionStorage — so the same
+  // 3 wins show identically on every page load and across viewports.
+  const winFor = (drawId: string): DrawWinView | null => {
+    const fixture = findUserWin(drawId);
+    if (!fixture) return null;
+    return { fawzNumber: fixture.fawzNumber, prizeIqd: fixture.prizeIqd };
+  };
 
   return (
     <ScreenWrapper>
@@ -103,7 +83,8 @@ export default function DrawResultsPage() {
       ) : (
         <div className="grid md:grid-cols-2 gap-4">
           {draws.map((draw) => {
-            const isWonHere = recentWin && wonDrawId === draw.id;
+            const win = winFor(draw.id);
+            const isWonHere = !!win;
             return (
               <Card
                 key={draw.id}
@@ -113,12 +94,11 @@ export default function DrawResultsPage() {
                 padding="lg"
                 className={cn(
                   'group relative',
-                  isWonHere &&
-                    'ring-2 ring-gold-400/80 shadow-[0_18px_44px_-14px_rgba(255,201,77,0.55)] animate-scale-in',
+                  isWonHere && 'ring-2 ring-gold-400/80 shadow-[0_8px_24px_-12px_rgba(255,201,77,0.4)]',
                 )}
               >
                 {isWonHere && (
-                  <span className="absolute -top-3 end-4 inline-flex items-center gap-1.5 rounded-full ps-1 pe-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-ink-900 shadow-[0_6px_18px_-4px_rgba(255,201,77,0.6)]"
+                  <span className="absolute -top-3 end-4 inline-flex items-center gap-1.5 rounded-full ps-1 pe-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-ink-900"
                     style={{ background: 'linear-gradient(135deg, #FFE7A3 0%, #FFC94D 60%, #F2B324 100%)' }}
                   >
                     <Party3D size={22} />
@@ -160,21 +140,21 @@ export default function DrawResultsPage() {
                     ))}
                   </div>
                 )}
-                {isWonHere && recentWin && (
+                {win && (
                   <div className="rounded-xl border border-gold-300/70 bg-gradient-to-br from-gold-50 to-gold-100/50 p-3 mb-4">
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <span className="text-[10px] uppercase tracking-wider font-black text-gold-700">
                         {t('draws.yourMatchedTicket')}
                       </span>
                       <span className="inline-flex items-center gap-1 rounded-full bg-gold-500 px-2 py-0.5 text-[10px] font-black text-ink-900">
-                        +{formatCompactIQD(recentWin.prizeIqd, lang)}
+                        +{formatCompactIQD(win.prizeIqd, lang)}
                       </span>
                     </div>
                     <div
                       dir="ltr"
                       className="font-mono text-base font-black tabular-nums text-ink-900 tracking-wider"
                     >
-                      {formatFawzNumber(recentWin.fawzNumber)}
+                      {formatFawzNumber(win.fawzNumber)}
                     </div>
                   </div>
                 )}

@@ -75,7 +75,7 @@ export function ShareButtons({ url, message }: ShareButtonsProps) {
       <button
         type="button"
         onClick={handleNative}
-        className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl p-3 text-white shadow-[0_8px_20px_-6px_rgba(0, 198, 167,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-6px_rgba(0, 198, 167,0.55)] bg-gradient-to-br from-brand-500 to-brand-700 col-span-2 sm:col-span-1"
+        className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl p-3 text-white shadow-[0_8px_20px_-6px_rgba(0, 198, 167,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-6px_rgba(0, 198, 167,0.55)] bg-gradient-to-br from-brand-500 to-brand-700"
       >
         <span className="flex size-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm icon-3d">
           <Share2 className="size-5" />

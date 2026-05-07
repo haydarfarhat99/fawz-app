@@ -35,7 +35,7 @@ export function setStoredToken(token: string | null): void {
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: env.apiBaseUrl,
-  timeout: 20_000,
+  timeout: 8_000,
   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
 });
 

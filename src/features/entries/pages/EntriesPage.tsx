@@ -50,12 +50,9 @@ export default function EntriesPage() {
 
   const tabs = [
     { key: 'all', label: t('entries.filter.all') },
-    { key: 'weekly', label: t('entries.filter.weekly') },
-    { key: 'monthly', label: t('entries.filter.monthly') },
     { key: 'transaction', label: t('entries.filter.transaction') },
     { key: 'challenge', label: t('entries.filter.challenge') },
     { key: 'referral', label: t('entries.filter.referral') },
-    { key: 'retroactive', label: t('entries.filter.retroactive') },
   ];
 
   return (

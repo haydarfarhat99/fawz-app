@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient, withFallback } from '@core/network/apiClient';
 import { generateFawzNumber } from '@core/utils/helpers';
-import { DEMO_STATS } from '@core/mocks/demoStats';
+import { DEMO_STATS, DEMO_USER_WINS } from '@core/mocks/demoStats';
 import type { EntryFilter, EntrySummary, FawzEntry } from '../types/entry.types';
 
 export const entryKeys = {
@@ -10,30 +10,60 @@ export const entryKeys = {
   list: (filter: EntryFilter) => [...entryKeys.all, 'list', filter] as const,
 };
 
-const sources: FawzEntry['source'][] = ['transaction', 'challenge', 'referral', 'retroactive'];
-const outcomes: FawzEntry['outcome'][] = ['active', 'won', 'lost'];
+const sources: FawzEntry['source'][] = ['transaction', 'challenge', 'referral'];
 
-const DUMMY_ENTRIES: FawzEntry[] = Array.from({ length: 50 }, (_, i) => {
+// Available draw ids referenced from DUMMY_DRAWS (draw.service). Keeping
+// active entries pointing at these so navigation always resolves to a
+// real draw record.
+const ACTIVE_DRAW_IDS = ['draw-143', 'draw-142', 'draw-141', 'draw-140'];
+
+/**
+ * Seeded won entries — one per real user win in DEMO_USER_WINS. Each carries
+ * the actual matched fawz number, draw id, tier, and prize, so:
+ *   - clicking the entry routes to the matching draw detail
+ *   - the detail page sees this fawz number and highlights it as the match
+ */
+const WON_ENTRIES: FawzEntry[] = DEMO_USER_WINS.map((win) => ({
+  id: `entry-${win.id}`,
+  fawzNumber: win.fawzNumber,
+  source: 'transaction',
+  drawType: win.drawType,
+  createdAt: win.drawDate,
+  drawId: win.drawId,
+  drawWeekLabel: win.drawDate,
+  outcome: 'won',
+  wonTier: win.tier,
+  wonPrizeIqd: win.prizeIqd,
+  transactionAmount: 12_500,
+}));
+
+/**
+ * Random active entries spread across the recent draws. Outcome is always
+ * 'active' so the won glow only appears on the seeded WON_ENTRIES above.
+ */
+const ACTIVE_ENTRIES: FawzEntry[] = Array.from({ length: 46 }, (_, i) => {
   const source = sources[i % sources.length];
-  const outcome = i === 0 ? 'won' : i % 7 === 0 ? 'won' : outcomes[i % outcomes.length];
-  const createdAt = new Date(Date.now() - i * 3600_000 * 5).toISOString();
-  const weekDate = new Date(Date.now() - Math.floor(i / 5) * 7 * 86400_000);
-  // 70% weekly, 30% monthly
   const drawType: FawzEntry['drawType'] = i % 10 < 7 ? 'weekly' : 'monthly';
+  const drawId = drawType === 'monthly'
+    ? 'draw-141'
+    : ACTIVE_DRAW_IDS[i % ACTIVE_DRAW_IDS.length];
+  const createdAt = new Date(Date.now() - (i + 1) * 3600_000 * 5).toISOString();
   return {
-    id: `entry-${i + 1}`,
+    id: `entry-active-${i + 1}`,
     fawzNumber: generateFawzNumber(),
     source,
     drawType,
     createdAt,
-    drawId: drawType === 'monthly' ? `draw-141` : `draw-${143 - Math.floor(i / 5)}`,
-    drawWeekLabel: weekDate.toISOString(),
-    outcome,
-    wonTier: outcome === 'won' ? 'last_4' : undefined,
-    wonPrizeIqd: outcome === 'won' ? 10_000 : undefined,
+    drawId,
+    drawWeekLabel: createdAt,
+    outcome: 'active',
     transactionAmount: source === 'transaction' ? 1500 + (i % 12) * 1000 : undefined,
   };
 });
+
+const DUMMY_ENTRIES: FawzEntry[] = [...WON_ENTRIES, ...ACTIVE_ENTRIES].sort(
+  (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
+);
 
 const DUMMY_SUMMARY: EntrySummary = {
   weeklyThisWeek: DEMO_STATS.weeklyTicketsThisWeek,

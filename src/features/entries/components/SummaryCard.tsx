@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Sparkles } from 'lucide-react';
-import { Ticket3D, Calendar3D, Trophy3D, TrendingUp3D } from '@shared/components/Icon3D';
+import { Ticket3D, Trophy3D, TrendingUp3D } from '@shared/components/Icon3D';
 import { useUIStore } from '@stores/ui.store';
 import { Card } from '@shared/components/Card';
 import { formatCompactIQD, formatNumber } from '@core/utils/formatters';
@@ -15,9 +15,6 @@ export function SummaryCard({ summary }: SummaryCardProps) {
   const lang = useUIStore((s) => s.language);
   return (
     <Card variant="gradient" padding="lg" className="relative overflow-hidden mb-5">
-      <div className="absolute -top-12 -end-12 size-48 rounded-full bg-brand-300/40 blur-3xl" />
-      <div className="absolute -bottom-12 -start-12 size-48 rounded-full bg-gold-300/30 blur-3xl" />
-
       <div className="relative">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-700 mb-4">
           <Sparkles className="size-3" />
@@ -42,7 +39,7 @@ export function SummaryCard({ summary }: SummaryCardProps) {
 
           <div className="rounded-2xl bg-white/85 backdrop-blur p-4 shadow-[0_4px_18px_-6px_rgba(251,191,36,0.25)]">
             <div className="flex items-center gap-2 mb-2">
-              <Calendar3D size={32} tone="teal" />
+              <Ticket3D size={32} tone="teal" />
               <span className="text-[10px] uppercase tracking-wider font-bold text-gold-700">
                 {t('entries.monthlyTickets')}
               </span>

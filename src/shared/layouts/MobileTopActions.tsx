@@ -57,37 +57,33 @@ export function MobileTopActions() {
   return (
     <div className="lg:hidden px-4 pt-4">
       <div
-        className="relative overflow-hidden rounded-3xl px-4 py-5 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
+        className="relative overflow-hidden rounded-3xl px-5 py-5 text-white shadow-[0_18px_44px_-18px_rgba(0,49,46,0.55)]"
         style={{ background: 'linear-gradient(135deg, #00C6A7 0%, #00766A 60%, #00312E 100%)' }}
       >
-        <div className="absolute -top-16 -end-16 size-56 rounded-full bg-gold-300/25 blur-3xl" />
-        <div className="absolute -bottom-16 -start-16 size-56 rounded-full bg-teal-300/30 blur-3xl" />
+        {/* Action row — left: language, right: bell + avatar in a single subtle pill */}
+        <div className="relative flex items-center justify-between gap-2 mb-5">
+          <button
+            type="button"
+            onClick={toggleLanguage}
+            aria-label={t('common.language')}
+            className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+          >
+            <Globe3D size={36} />
+            <span className="absolute -bottom-1 -end-1 inline-flex h-4 min-w-5 items-center justify-center rounded-full bg-gold-400 px-1 text-[9px] font-black text-ink-900 ring-2 ring-teal-700 tabular-nums">
+              {lang === 'en' ? 'AR' : 'EN'}
+            </span>
+          </button>
 
-        <div className="relative flex items-center justify-between gap-2 mb-4">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              aria-label={t('common.language')}
-              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
-            >
-              <Globe3D size={42} />
-              <span className="absolute -bottom-1 -end-1 inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-gold-400 px-1 text-[9px] font-black text-ink-900 ring-2 ring-teal-700 tabular-nums">
-                {lang === 'en' ? 'AR' : 'EN'}
-              </span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 rounded-full bg-white/10 ring-1 ring-white/15 ps-2.5 pe-1.5 py-1.5 backdrop-blur-sm">
             <button
               type="button"
               onClick={() => navigate('/notifications')}
               aria-label={t('nav.notifications')}
               className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
             >
-              <Bell3D size={42} />
+              <Bell3D size={28} />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -end-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[10px] font-black text-white px-1 ring-2 ring-teal-700 tabular-nums">
+                <span className="absolute -top-1 -end-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger-500 text-[9px] font-black text-white px-1 ring-2 ring-teal-700 tabular-nums">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -96,9 +92,8 @@ export function MobileTopActions() {
               type="button"
               onClick={() => navigate('/profile')}
               aria-label={t('nav.profile')}
-              className="group relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
+              className="relative inline-flex items-center justify-center transition-transform duration-150 active:scale-90"
             >
-              <span className="absolute inset-0 -z-10 rounded-full blur-md bg-gold-400/45 animate-pulse-glow" />
               <Avatar name={user?.fullName} src={user?.avatarUrl} size="md" />
             </button>
           </div>
@@ -106,21 +101,20 @@ export function MobileTopActions() {
 
         <div className="relative flex items-center gap-4">
           <div className="relative shrink-0">
-            <div className="absolute inset-0 -z-10 blur-3xl bg-gold-400/35 rounded-full scale-125" />
-            <div className="absolute inset-0 -z-10 blur-xl bg-teal-400/30 rounded-2xl scale-110" />
+            <span className="absolute inset-0 -z-10 rounded-2xl bg-gold-300/25 blur-xl scale-110" />
             <img
               src="/brand/fawz-mark.png"
               alt="FAWZ"
-              className="size-20 drop-shadow-[0_14px_28px_rgba(10,15,14,0.55)]"
+              className="size-[72px] drop-shadow-[0_6px_14px_rgba(10,15,14,0.45)]"
             />
           </div>
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 leading-snug">
             {isHome ? (
               <>
-                <p className="text-[11px] uppercase tracking-[0.22em] text-gold-200 font-bold mb-1">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-gold-200 font-bold mb-0.5">
                   {t('home.welcomeBack')}
                 </p>
-                <p className="text-xs text-white/75 mb-1.5">{t('home.brandTagline')}</p>
+                <p className="text-xs text-white/75 mb-1">{t('home.brandTagline')}</p>
                 <h1 className="text-xl font-black leading-tight truncate">
                   {user?.fullName ?? t('home.playerFallback')}
                 </h1>
@@ -129,7 +123,7 @@ export function MobileTopActions() {
               <>
                 <h1 className="text-xl font-black leading-tight">{t(meta.titleKey)}</h1>
                 {meta.descriptionKey && (
-                  <p className="text-xs text-white/80 leading-snug mt-1.5">{t(meta.descriptionKey)}</p>
+                  <p className="text-xs text-white/80 leading-snug mt-1">{t(meta.descriptionKey)}</p>
                 )}
               </>
             )}
